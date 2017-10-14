@@ -1,5 +1,5 @@
 
-##DataStructures
+## DataStructures
 
 - array
 - vector
@@ -22,6 +22,6 @@
   - hash_table_using_open_addressing
   - hash_table_using_separate_chaining
   
-  ##Links
+  ## Links
   
   https://msdn.microsoft.com/ru-ru/library/1fe2x6kt.aspx

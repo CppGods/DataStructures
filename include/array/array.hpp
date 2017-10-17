@@ -11,21 +11,27 @@ public:
 
 	~array();
 
-	void assign(const Ty& val);
-
 	const Ty& at(size_t index) const;
 
 	const Ty& back() const;
 
 	Ty* begin();
 
+	Ty* end();
+
+	bool empty() const;
+
+	void fill(const Type& val);
+
 	const Ty& front() const;
+
+	size_t size() const;
+
+	void swap(array& right);
 
 	//...
 
 	//operators
-
-	
 
 	Ty& operator[](size_t index);
 

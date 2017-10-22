@@ -1,48 +1,60 @@
-template<class Ty, size_t N> 
-class array {
+#include <algorithm>
+#include <stdexcept>
 
+
+template<typename T, int N>
+class array
+{
 public:
 	
-	//methods
+	typedef typename std::add_pointer<T>::type iterator;
 
-	array();
-
-	array(const array& other);
-
-	~array();
-
-	const Ty& at(size_t index) const;
-
-	const Ty& back() const;
-
-	Ty* begin();
-
-	Ty* end();
-
-	bool empty() const;
-
-	void fill(const Type& val);
-
-	const Ty& front() const;
-
-	size_t size() const;
-
-	void swap(array& right);
-
-	//...
-
-	//operators
-
-	Ty& operator[](size_t index);
-
-	const Ty& operator[](size_t index) const;
-
-	//...
+	size_t size() const 
+	{
+		return N; 
+	}
+	bool empty() const 
+	{
+		return !N; 
+	}
+	T& operator [](size_t idx) 
+	{ 
+		if (idx >= size())
+			throw std::out_of_range("out_of_range");
+		return array_[idx];
+	}
+	T& at(size_t idx)
+	{
+		if (idx >= size())
+			throw std::out_of_range("out_of_range");
+		return array_[idx];
+	}
+	T& front()
+	{
+		return *begin();
+	}
+	T& back()
+	{
+		return N ? *(end() - 1) : *end();
+	}
+	iterator begin() 
+	{ 
+		return iterator(array_); 
+	}
+	iterator end() 
+	{
+		return iterator(array_ + N);
+	}
+	void fill(const T & val)
+	{
+		std::fill(begin(), end(), val);
+	}
+	void swap(array& other)
+	{
+		std::swap_ranges(begin(), end(), other.begin());
+	}
 
 private:
-
-	//members
-
-	Ty arr_[N];
+	T array_[N ? N : 1];
 
 };

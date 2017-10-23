@@ -1,7 +1,5 @@
 
 #include <iostream>
-#include <string>
-#include <cassert> 
 
 template <class Ty>
 class stack {
@@ -57,11 +55,11 @@ stack<Ty>::~stack() noexcept
 template <class Ty>
 void stack<Ty>:: pop()
 {
-	if (count_ <= 0)
+	if (count_ == 0)
 	{
 		throw "logic error";
 	}
-   	array_[--count_];
+   	--count_;
 }
 
 template <class Ty>

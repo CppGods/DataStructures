@@ -23,5 +23,7 @@
   - hash_table_using_separate_chaining
   
 ## Links
+
+  http://ru.cppreference.com/w/cpp/container
   
   https://msdn.microsoft.com/ru-ru/library/1fe2x6kt.aspx

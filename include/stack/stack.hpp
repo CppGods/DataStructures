@@ -57,7 +57,10 @@ stack<Ty>::~stack() noexcept
 template <class Ty>
 void stack<Ty>:: pop()
 {
-	assert(count_ > 0);
+	if (count_ <= 0)
+	{
+		throw "logic error";
+	}
    	array_[--count_];
 }
 

@@ -67,7 +67,7 @@ vector(const vector& other) :
 	size_array_(other.size_array_),
 	count_(other.count_)
 {
-	std::copy(array_, array_ + count_, other.array_);
+	std::copy(other.array_, other.array_ + count_, array_);
 }
 
 template<class Ty>

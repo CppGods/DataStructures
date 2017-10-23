@@ -62,7 +62,7 @@ public:
 
 	void fill(T * val)
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < N; i++)
 		{
 			*val = array_[i];
 			val++;

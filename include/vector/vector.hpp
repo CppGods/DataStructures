@@ -3,72 +3,90 @@ class vector {
 
 public:
 
-	//methods
+// methods
 
-/*
-vector::assign	 Удаляет вектор и копирует указанные элементы в пустой вектор.
+  vector();
+  
+  vetor(const vector& other);
+  
+  ~vector();
+  
+  T& at(size_t index);
+  
+  Ty& back();
+  
+  void clear();
+  
+  Ty* data();
+  
+  bool empty() const;
+  
+  Ty& front();
+  
+  size_t max_size() const;
 
-vector::at		 Возвращает ссылку на элемент в заданном положении в векторе.
+  void push_back(const Ty& value); 
 
-vector::back	 Возвращает ссылку на последний элемент вектора.
+  void reserve(size_t size);
+  
+  void resize(size_t size);
 
-vector::begin	 Возвращает итератор произвольного доступа, указывающий на первый элемент в векторе.
+  void shrink_to_fit();
 
-vector::capacity Возвращает число элементов, которое вектор может содержать без выделения дополнительного пространства.
+//...
 
-vector::clear	 Очищает элементы вектора.
-
-vector::data   	 Возвращает указатель на первый элемент в векторе.
-
-vector::emplace	 Вставляет элемент, созданный на месте, в указанное положение в векторе.
-
-vector::emplace_back	Добавляет элемент, созданный на месте, в конец вектора.
-
-vector::empty	 Проверяет, пуст ли контейнер вектора.
-
-vector::end   	 Возвращает итератор произвольного доступа, который указывает на конец вектора.
-
-vector::erase	 Удаляет элемент или диапазон элементов в векторе из заданных позиций.
-
-vector::front	 Возвращает ссылку на первый элемент в векторе.
-
-vector::insert	 Вставляет элемент или некоторое число элементов в вектор в заданной позиции.
-
-vector::max_size Возвращает максимальную длину вектора.
-
-vector::pop_back Удаляет элемент в конце вектора.
-
-vector::push_back Добавляет элемент в конец вектора.
-
-vector::reserve	 Резервирует минимальную длину хранилища для объекта вектора.
-
-vector::resize	 Определяет новый размер вектора.
-
-vector::shrink_to_fit	Удаляет лишнюю емкость.
-
-vector::size	 Возвращает количество элементов в векторе.
-
-vector::swap	 Меняет местами элементы двух векторов.
-
-*/
-
-	//...
-
-	//operators
-/*
-vector::operator[]	Возвращает ссылку на элемент вектора в указанной позиции.
-
-vector::operator =	Заменяет элементы вектора копией другого вектора.
-*/
-	//...
+// operators 
+ 
+  vector& operator=(const vector& other);
+  
+  Ty& opearator[](size_t index);
+  
+  const Ty& operator[](size_t index) const;
+  
+// ...
 
 private:
+  
+  void swap(vector& other)
 
-	//members
-
-	Ty* array_;
-	size_t size_array;
-	size_t count_;
-
-
+  Ty* array_;
+  size_t size_array;
+  size_t count_;
 };
+
+
+template<class Ty>
+vector() :
+	array_(nullptr_),
+	size_array_(0),
+	count_(0)
+{}
+
+template<class Ty>
+vector(const vector& other) :
+	size_array_(other.size_array_),
+	count_(other.count_)
+{
+	std::copy(array_, array_ + count_, other.array_);
+}
+
+template<class Ty>
+~vector() {
+	delete[] array_;
+}
+
+template<class Ty>
+vector<Ty>& operator=(const vector<Ty>& other) {
+	if (this != &other) {
+		vector<T> tmp(other);
+		tmp.swap(*this);
+	}
+	return *this;
+}
+
+template<class Ty>
+void vector<T>::swap(vector<T>& other) {
+	std::swap(array_, other.array_);
+	std::swap(array_size_, other.array_size_);
+	std::swap(count_, other.count_);
+}

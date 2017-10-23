@@ -2,25 +2,12 @@
 #include <stdexcept>
 
 
-template<typename T, int N>
+template<typename T, size_t N>
 class array
 {
 public:
-	array()
-	{
-		array_ = new T[N ? N : 1];
-		for (int i = 0; i < N; i++)
-			array_[i] = 0;
-	}
-	array(const array& other)
-	{
-		array_ = new T[N ? N : 1];
-		std::copy(other.array_, other.array_ + N, array_);
-	}
-	~array()
-	{
-		delete[] array_;
-	}
+	
+	
 	typedef typename std::add_pointer<T>::type iterator;
 	
 	size_t size() const
@@ -57,10 +44,15 @@ public:
 		return N ? *(end() - 1) : *end();
 	}
 
-	iterator begin() { return iterator(array_); }
+	iterator begin() 
+	{
+		return iterator(array_); 
+	}
 
 	iterator end() 
-	{ return iterator(array_ + N); }
+	{
+		return iterator(array_ + N);
+	}
 
 
 	void swap(array& other)
@@ -75,10 +67,18 @@ public:
 			*val = array_[i];
 			val++;
 		}
-		delete[] array_;
+	}
+	array<T, N> & operator=(const array<T, N> & arr)
+	{
+		if (this != arr) 
+		{
+			array<T, N> temp(arr);
+			temp.swap(*this);
+		}
+		return *this;
 	}
 	
 private:
-	T* array_;
+	T array_[N ? N : 1];
 
 };

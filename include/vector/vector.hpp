@@ -3,8 +3,6 @@ class vector {
 
 public:
 
-// methods
-
   vector();
   
   vector(const vector& other);
@@ -27,7 +25,7 @@ public:
   
   const Ty& front() const;
   
-  size_t max_size() const;
+  std::size_t max_size() const;
 
   void push_back(const Ty& value); 
 
@@ -38,22 +36,16 @@ public:
   size_t size() const;
 
   void shrink_to_fit();
-
-//...
-
-// operators 
  
   vector& operator=(const vector& other);
   
   Ty& opearator[](size_t index);
   
   const Ty& operator[](size_t index) const;
-  
-// ...
 
 private:
   
-  void swap(vector& other)
+  void swap(vector& other);
 
   Ty* array_;
   size_t size_array_;
@@ -62,9 +54,7 @@ private:
 
 
 
-
 /////////////////////////////////REALISE///////////////////////////////////////
-
 
 template<class Ty>
 vector<Ty>::vector() 
@@ -76,7 +66,8 @@ vector<Ty>::vector()
 }
 
 template<class Ty>
-vector<Ty>::vector(const vector& other) :
+vector<Ty>::vector(const vector& other) 
+	:
 	size_array_{ other.size_array_ },
 	count_{ other.count_ } {
 
@@ -111,20 +102,18 @@ template<class Ty>
 Ty& vector<Ty>::at(size_t index) {
 
 	if (index < count_) {
-		return array_[index]
-	} else {
-		throw "IndexOUT!!!"
+		return array_[index];
 	}
+	throw "IndexOutOfRange!!!";
 }
 
 template<class Ty>
-const Ty& vector<Ty>::at(size_t index) const {
+const Ty& vector<Ty>::at(std::size_t index) const {
 
 	if (index < count_) {
-		return array_[index]
-	} else {
-		throw "IndexOUT!!!"
-	}
+		return array_[index];
+	} 
+	throw "IndexOutOfRange!!!";
 }
 
 template<class Ty>
@@ -207,6 +196,7 @@ size_t vector<Ty>::max_size() const {
 
 template<class Ty>
 void vector<Ty>::reserve(size_t size) {
+
 	if (size > size_array_) {
 		if (size_ > max_size()) {
 			throw "Length_error!!!";
@@ -226,7 +216,7 @@ void vector<Ty>::reserve(size_t size) {
 }
 
 template<class Ty>
-void vector<Ty>::resize(size_t count) {
+void vector<Ty>::resize(std::size_t count) {
 	
 	if (count >= count_) {
 		reserve(count);
@@ -234,7 +224,7 @@ void vector<Ty>::resize(size_t count) {
 		while (!(size_array_ / 2 < count)) {
 			size_array_ /= 2;
 		}
-		if (size_array_ < count_) { // attaention, relation with each other
+		if (size_array_ < count_) { // atention, relation with each other
 			Ty* tmp = array_;
 			array_ = new Ty[size_array_];
 			std::copy(tmp, tmp + count_, array_);
@@ -246,7 +236,7 @@ void vector<Ty>::resize(size_t count) {
 template<class Ty>
 void vector<Ty>::shrink_to_fit() {
 
-	size_t start = size_array_;
+	std::size_t start = size_array_;
 	while (size_array_ / 2 > count_) {
 		size_array_ /= 2;
 	}

@@ -4,12 +4,7 @@ Class vector описывает объект - контейнер, предст�
 
 https://msdn.microsoft.com/ru-ru/library/9xd04bzs.aspx
 
-//уточнить про аллокатор и итератор
-
-template <class Type, class Allocator = allocator<Type>>  
-class vector
-
-or
+http://ru.cppreference.com/w/cpp/container/vector
 
 template <class Ty>
 class vector

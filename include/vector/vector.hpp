@@ -9,13 +9,15 @@ public:
   
   ~vector();
   
-  Ty& at(size_t index);
+  void assign( std::size_t count, const T& value );
+  
+  Ty& at(std::size_t index);
 
-  const Ty& at(size_t index) const;
+  const Ty& at(std::size_t index) const;
   
   const Ty& back() const;
 
-  size_t capacity() const;
+  std::size_t capacity() const;
   
   void clear();
   
@@ -29,9 +31,9 @@ public:
 
   void push_back(const Ty& value); 
 
-  void reserve(size_t size);
+  void reserve(std::size_t size);
   
-  void resize(size_t count);
+  void resize(std::size_t count);
 
   size_t size() const;
 
@@ -39,9 +41,9 @@ public:
  
   vector& operator=(const vector& other);
   
-  Ty& opearator[](size_t index);
+  Ty& opearator[](std::size_t index);
   
-  const Ty& operator[](size_t index) const;
+  const Ty& operator[](std::size_t index) const;
 
 private:
   
@@ -99,7 +101,7 @@ void vector<T>::swap(vector<T>& other) {
 }
 
 template<class Ty>
-Ty& vector<Ty>::at(size_t index) {
+Ty& vector<Ty>::at(std::size_t index) {
 
 	if (index < count_) {
 		return array_[index];
@@ -118,14 +120,20 @@ const Ty& vector<Ty>::at(std::size_t index) const {
 
 template<class Ty>
 const Ty& vector<Ty>::back() const {
-
-	return array_[count_ - 1];
+	
+	if(count_ > 0) {
+		return array_[count_ - 1];
+	}
+	throw "Logical_error!!!"
 }
 
 template<class Ty>
 const Ty& vector<Ty>::front() const {
-
-	return array_[0];
+	
+	if(count_ > 0) {
+		return array_[0];
+	}
+	throw "Logical_error!!!"
 }
 
 template<class Ty>
@@ -155,21 +163,23 @@ template<class Ty>
 void vector<Ty>::push_back(const Ty& value) {
 
 	if (count_ == 0) {
+		array_ = new Ty[1];
 		size_array_ = 1;
-		array_ = new Ty[size_array_];
 	}
 	if (count_ == size_array_) {
-		size_array_ *= 2;
-		if (size_array_ > max_size()) {
-			if (size_array_ / 2 < max_size()) {
-				size_array_ = max_size();
+		std::size_t newsize = size_array_;
+		newsize *= 2;
+		if (newsize > max_size()) {
+			if (newsize / 2 < max_size()) {
+				newsize = max_size();
 			} else {
 				throw "Length_error!!!"
 			}
 		}
 		Ty* tmp = array_;
-		array_ = new Ty[size_array_];
+		array_ = new Ty[newsize];
 		std::copy(tmp, tmp + count_, array_);
+		size_array_ = newsize;
 		delete[] tmp;
 	}
 	array_[count_] = value;
@@ -191,26 +201,38 @@ size_t vector<Ty>::capacity() const {
 template<class Ty>
 size_t vector<Ty>::max_size() const {
 
-	return std::numeric_limits<vector<Ty>>::max(); // ???
+	return std::numeric_limits<vector<Ty>>::max();
 }
 
 template<class Ty>
-void vector<Ty>::reserve(size_t size) {
+void vector<Ty>::reserve(std::size_t size) {
 
 	if (size > size_array_) {
 		if (size_ > max_size()) {
 			throw "Length_error!!!";
 		} else {
-			while (size_array_ < size_) {
-				size_array_ *= 2;
+			
+			if(size_array_ == 0) {
+				array_ = new Ty[1];
+				size_array_ = 1;
 			}
-			if (size_array_ > max_size()) {
-				size_array_ = max_size();
+			std::size_t newsize = size_array_;
+			while (newsize < size_) {
+				newsize *= 2;
 			}
-			Ty* tmp = array_;
-			array_ = new Ty[size_array_];
-			std::copy(tmp, tmp + count_, array_);
-			delete[] tmp;
+			if (newsize > max_size()) {
+				newsize = max_size();
+			}
+			if(count_ > 0) {
+				Ty* tmp = array_;
+				array_ = new Ty[newsize];
+				std::copy(tmp, tmp + count_, array_);
+				delete[] tmp;
+			} else {
+				delete[] array_;
+				array_ = new Ty[newsize];
+			}
+			size_array_ = newsize;
 		}
 	}
 }
@@ -221,13 +243,15 @@ void vector<Ty>::resize(std::size_t count) {
 	if (count >= count_) {
 		reserve(count);
 	} else {
-		while (!(size_array_ / 2 < count)) {
-			size_array_ /= 2;
+		std::size_t newsize = size_array_;
+		while (!(newsize / 2 < count)) {
+			newsize /= 2;
 		}
-		if (size_array_ < count_) { // atention, relation with each other
+		if (newsize < count_) { // atention, relation with each other
 			Ty* tmp = array_;
-			array_ = new Ty[size_array_];
+			array_ = new Ty[newsize];
 			std::copy(tmp, tmp + count_, array_);
+			size_array_ = newsize;
 			delete[] tmp;
 		}
 	}
@@ -236,18 +260,47 @@ void vector<Ty>::resize(std::size_t count) {
 template<class Ty>
 void vector<Ty>::shrink_to_fit() {
 
-	std::size_t start = size_array_;
-	while (size_array_ / 2 > count_) {
-		size_array_ /= 2;
+	std::size_t start_size = size_array_;
+	std::size_t newsize = size_array_;
+	while (newsize / 2 > count_) {
+		newsize /= 2;
 	}
-	if (size_array_ != start) {
+	if (newsize != start_size) {
 		Ty* tmp = array_;
-		array_ = new Ty[size_array_];
+		array_ = new Ty[newsize];
 		std::copy(tmp, tmp + count_, array_);
+		size_array_ = newsize;
 		delete[] tmp;
 	}
 }
 
+template<class Ty>
+void vector<Ty>::assign( std::size_t count, const Ty& value ) {
+	
+	if(count > max_size()) {
+		throw "Length_error!!!";
+	}
+	reserve(count);
+	for(std::size_t i = 0; i < count; ++i) {
+		array_[i] = val;
+	}
+	count_ = count;
+}
 
+template<class Ty>
+Ty& vector<Ty>::opearator[](std::size_t index) {
 
+	if(count_ != 0 && index < count_) {
+		return array_[index];
+	}
+	throw "IndexOutOfRange";
+}  
 
+template<class Ty>
+const Ty& vector<Ty>::operator[](std::size_t index) const {
+	  
+	if(count_ != 0 && index < count_) {
+		return array_[index];
+	}
+	throw "IndexOutOfRange";	  
+  }

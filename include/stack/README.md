@@ -4,12 +4,7 @@
 
 https://msdn.microsoft.com/ru-ru/library/56fa1zk5.aspx
 
-//уточнить про использование надстройки над другим контейнером
-
-template <class Ty, class Container= deque <Type>>  
-class stack
-
-or
+http://ru.cppreference.com/w/cpp/container/stack
 
 template <class Ty>  
 class stack
@@ -21,8 +16,6 @@ Ty* array_
 size_t size_array_
 
 size_t count_
-
-//...
 
 ## Methods
 
@@ -36,12 +29,7 @@ stack::size	    Возвращает количество элементов в 
 
 stack::Top	    Возвращает ссылку на элемент в верхней части stack.
 
-//...
 
 ## Operators
 
-//...
-
 ## OTHER
-
-//...

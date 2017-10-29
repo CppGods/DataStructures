@@ -201,7 +201,7 @@ size_t vector<Ty>::capacity() const {
 template<class Ty>
 size_t vector<Ty>::max_size() const {
 
-	return std::numeric_limits<vector<Ty>>::max();
+	return std::numeric_limits<size_t>::max();
 }
 
 template<class Ty>
@@ -289,18 +289,10 @@ void vector<Ty>::assign( std::size_t count, const Ty& value ) {
 
 template<class Ty>
 Ty& vector<Ty>::opearator[](std::size_t index) {
-
-	if(count_ != 0 && index < count_) {
-		return array_[index];
-	}
-	throw "IndexOutOfRange";
+	return array_[index];
 }  
 
 template<class Ty>
-const Ty& vector<Ty>::operator[](std::size_t index) const {
-	  
-	if(count_ != 0 && index < count_) {
-		return array_[index];
-	}
-	throw "IndexOutOfRange";	  
+const Ty& vector<Ty>::operator[](std::size_t index) const {  
+	return array_[index];	  
   }

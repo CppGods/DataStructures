@@ -35,8 +35,6 @@ bool array<T, N>::empty() const  noexcept
 template<typename T, std::size_t N>
 T& array<T, N>::operator [](std::size_t idx)
 {
-	if (idx >= size())
-		throw std::out_of_range("out_of_range");
 	return array_[idx];
 }
 

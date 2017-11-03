@@ -8,7 +8,7 @@ public:
 	stack();
 	~stack()  noexcept;
 	stack(const stack<Ty>&);
-	Ty* top () const;
+	Ty& top () const;
 	size_t size() const noexcept;
 	void push(const Ty& val);
 	void pop ();
@@ -21,9 +21,9 @@ private:
 	size_t count_;
 };
 template <class Ty>
-Ty* stack<Ty>:: top() const
+Ty& stack<Ty>:: top() const
 {
-	return array_;
+	return array_[count-1];
 }
 
 template <class Ty>

@@ -10,7 +10,7 @@ template <class Ty>
 class list
 
 ## Memebers
-class node{  Класс данных списка
+class node{  *Класс данных списка*
 
   node *next; Указатель на следующий элемент в списке
 

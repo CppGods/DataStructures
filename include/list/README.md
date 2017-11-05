@@ -11,10 +11,15 @@ class list
 
 ## Memebers
 class node // Класс данных списка
+
     node *next; //Указатель на следующий элемент в списке
+    
 	  T val; //Данные списка
+	  
 node *head; //Указатель на начало списка
+
 int count; //Количество элементов в списке
+
 ## Methods
 
 ## Operators

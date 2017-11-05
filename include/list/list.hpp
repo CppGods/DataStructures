@@ -24,17 +24,29 @@ list<Ty>::list(): count{0}, head{nullptr}{};
 template <class Ty>
 list<Ty>::~list()
 {
-    node *cur_ = head;
+	clear();
+}
+template <class Ty>
+void list<Ty>::clear()
+{
+	node *cur_ = head;
 		node *deleted_ = head;
 		while (deleted_!=nullptr)
 		{
 			  cur_=cur_->next;
 			  delete deleted_;
-			  deleted_=current;
+			  deleted_=cur_;
 		}
+	count=0;
+	head=nullptr;
 }
 template <class Ty>
 list<Ty>::list(const list& other)
 {
-  
+  	count=other.count;
+	while (other.head!=nullptr)
+	{
+		add(oter.head);
+	}
+	
 }

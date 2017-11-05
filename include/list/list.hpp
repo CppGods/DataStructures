@@ -18,35 +18,37 @@ public:
   list& operator=(const list& other);
 private:
   void swap(list& other);
+  void clear();
 };
-template <class Ty>
-list<Ty>::list(): count{0}, head{nullptr}{};
-template <class Ty>
-list<Ty>::~list()
-{
-	clear();
-}
-template <class Ty>
-void list<Ty>::clear()
-{
-	node *cur_ = head;
-		node *deleted_ = head;
-		while (deleted_!=nullptr)
-		{
-			  cur_=cur_->next;
-			  delete deleted_;
-			  deleted_=cur_;
-		}
-	count=0;
-	head=nullptr;
-}
-template <class Ty>
-list<Ty>::list(const list& other)
-{
-  	count=other.count;
-	while (other.head!=nullptr)
+	template <class Ty>
+	list<Ty>::list(): count{0}, head{nullptr}{};
+	template <class Ty>
+	list<Ty>::~list()
 	{
-		add(oter.head);
+		clear();
+	}
+	template <class Ty>
+	void list<Ty>::clear()
+	{
+		node *cur_ = head;
+			node *deleted_ = head;
+			while (deleted_!=nullptr)
+			{
+				  cur_=cur_->next;
+				  delete deleted_;
+				  deleted_=cur_;
+			}
+		count=0;
+		head=nullptr;
+	}
+	template <class Ty>
+	list<Ty>::list(const list& other)
+	{
+	  	count=other.count;
+		while (other.head!=nullptr)
+		{
+			add(oter.head);
+		}
+		
 	}
 	
-}

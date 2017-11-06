@@ -29,6 +29,8 @@ class forward_list
  	size_t count_; //Кол-во элементов списка
 
 ## Methods
+*Публичные:*
+
 	forward_list() : count_{ 0 }, head{ nullptr } {}; //Конструктор без параметров
 	
 	forward_list(const forward_list& other); //Конструктор копирования
@@ -51,6 +53,9 @@ class forward_list
 	void pop_front(); //Удаление первого элемента списка
 	
 	size_t count() const; //Возвращает значение переменной count_
+*Приватные:*
+
+	void swap(forward_list& other); //Меняет местами два списка
 
 ## Operators
 	forward_list& operator=(const forward_list& other); //Операор копирующего присваивания

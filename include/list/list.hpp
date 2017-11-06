@@ -19,8 +19,8 @@ public:
   list(const list& other);
   ~list();
   list& operator=(const list& other);
-  bool empty();
-  size_t size();
+  bool empty() const;
+  size_t size() const;
 private:
   void swap(list& other);
   void clear();
@@ -51,12 +51,12 @@ private:
 	  	
 	}
 	template< typename Ty >
-	bool list<Ty>::empty() 
+	bool list<Ty>::empty() const
 	{
    		 return (count_==0);
    	}
 	template< typename Ty >
-	size_t list<Ty>::size() 
+	size_t list<Ty>::size() const
 	{
    		 return count_;
    	}

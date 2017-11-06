@@ -12,7 +12,7 @@ private:
        node* next;
        node* prev;
        node() : next(nullptr) {};
-       node(const Ty& t) : data{t}, next{nullptr}, prev(nullptr){};
+       node(const Ty& t) : data{t}, next{nullptr}, prev{nullptr}{};
    }
 public:
   list();

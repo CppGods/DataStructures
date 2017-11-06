@@ -1,6 +1,5 @@
 #include <iostream>
 
-
 template <class T>
 struct Node {
 	Node()
@@ -150,16 +149,28 @@ void list<Ty>::push_back(const Ty &val)
 template <class Ty>
 void list<Ty>::insert(size_t Index, const Ty &val)
 {
-	Node<Ty> *before = head->next;
-	while (Index-- > 0) 
-		before = before->next;
-	Node<Ty> *tmp = new Node<Ty>;
-	tmp->data = val;
-	tmp->prev = before->prev;
-	before->prev->next = tmp;
-	before->prev = tmp;
-	tmp->next = before;
-	count_++;
+	if (Index == 0)
+	{
+	push_front(val);
+	}
+	else
+		if (Index > count_)
+		{
+			push_back(val);
+		}
+		else
+		{
+			Node<Ty> *before = head;
+			while (Index-- > 0)
+				before = before->next;
+			Node<Ty> *tmp = new Node<Ty>;
+			tmp->data = val;
+			tmp->prev = before->prev;
+			before->prev->next = tmp;
+			before->prev = tmp;
+			tmp->next = before;
+			count_++;
+		}
 }
 template <class Ty>
 void list<Ty>::pop_front()

@@ -9,7 +9,7 @@ public:
   
   ~vector();
   
-  void assign( std::size_t count, const T& value );
+  void assign( std::size_t count, const Ty& value );
   
   Ty& at(std::size_t index);
 
@@ -29,13 +29,15 @@ public:
   
   std::size_t max_size() const;
 
-  void push_back(const Ty& value); 
+  void push_back(const Ty& value);
+
+  void pop_back();
 
   void reserve(std::size_t size);
   
   void resize(std::size_t count);
 
-  size_t size() const;
+  std::size_t size() const;
 
   void shrink_to_fit();
  
@@ -199,9 +201,9 @@ size_t vector<Ty>::capacity() const {
 }
 
 template<class Ty>
-size_t vector<Ty>::max_size() const {
+std::size_t vector<Ty>::max_size() const {
 
-	return std::numeric_limits<size_t>::max();
+	return std::numeric_limits<std::size_t>::max();
 }
 
 template<class Ty>
@@ -289,10 +291,23 @@ void vector<Ty>::assign( std::size_t count, const Ty& value ) {
 
 template<class Ty>
 Ty& vector<Ty>::opearator[](std::size_t index) {
+
 	return array_[index];
 }  
 
 template<class Ty>
 const Ty& vector<Ty>::operator[](std::size_t index) const {  
-	return array_[index];	  
-  }
+	
+	return array_[index];
+}
+
+template<class Ty>
+void vector<Ty>::pop_back() {
+
+	if (count_ > 0) {
+		array_[count_ - 1].~Ty();
+		--count_;
+	}
+	throw "vector is EMPTY!";
+}
+

@@ -10,6 +10,23 @@ template <class Ty>
 class forward_list
 
 ## Memebers
+struct node
+
+	{
+  
+		Ty data;
+    
+		node* next;
+    
+		node() : next(nullptr) {};
+    
+		node(const Ty& t) : data{ t }, next{ nullptr } {};
+    
+	};
+  
+	node *head;
+  
+  size_t count_;
 
 ## Methods
 

@@ -6,8 +6,6 @@ https://msdn.microsoft.com/ru-ru/library/802d66bt.aspx
 
 http://ru.cppreference.com/w/cpp/container/list
 
-template <class Ty>
-class list
 
 ## Memebers
 

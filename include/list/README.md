@@ -10,7 +10,6 @@ template <class Ty>
 class list
 
 ## Memebers
-
 struct Node     //Структура, содержащая информацию об узле списка
 { 
   Node *prev, *next;   // Указатель на предыдущий и следующий элементы 
@@ -24,6 +23,7 @@ size_t count;   //Количество элементов в списке
 
 ## Methods
 public:
+
 	list();   //Конструктор без параметров
 	list(const list& other);   //Конструктор копирования
 	~list();     //Деструктор
@@ -37,6 +37,7 @@ public:
 	void pop_back();        //Удаление элемента из конца списка
 	void pop_front();      //Удаление элемента из начала списка
 private:
+
 	void swap(list& other); //Меняет местами два списка
 	void clear();     //Функция очистки списка
 ## Operators

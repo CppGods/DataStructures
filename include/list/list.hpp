@@ -5,7 +5,7 @@ class list
 {
 private:
    node *head, *tail;
-   size_t count;
+   size_t count_;
    struct node
    {
        Ty data;
@@ -26,7 +26,7 @@ private:
   void clear();
 };
 	template <class Ty>
-	list<Ty>::list(): count{0}, head{nullptr}, tail{nullptr}{};
+	list<Ty>::list(): count_{0}, head{nullptr}, tail{nullptr}{};
 	template <class Ty>
 	list<Ty>::~list()
 	{
@@ -41,28 +41,23 @@ private:
         		 delete head;
          		 head=tail; 
      		}
-		count=0;
+		count_=0;
 		head=nullptr;
 		tail=nullptr;
 	}
 	template <class Ty>
 	list<Ty>::list(const list& other)
 	{
-	  	count=other.count;
-		while (other.head!=nullptr)
-		{
-			add(oter.head);
-			other.head=other.head->next;
-		}
+	  	
 	}
 	template< typename Ty >
 	bool list<Ty>::empty() 
 	{
-   		 return (count==0);
+   		 return (count_==0);
    	}
 	template< typename Ty >
 	size_t list<Ty>::size() 
 	{
-   		 return count;
+   		 return count_;
    	}
 }

@@ -10,7 +10,7 @@ template <class Ty>
 class forward_list
 
 ## Memebers
-struct node
+	struct node //структура, содержащая информацию об узле списка
 
 	{
   
@@ -24,12 +24,35 @@ struct node
     
 	};
   
-	node *head;
+	node *head; //Головной элемент списка
   
-  size_t count_;
+ 	size_t count_; //Кол-во элементов списка
 
 ## Methods
+	forward_list() : count_{ 0 }, head{ nullptr } {}; //Конструктор без параметров
+	
+	forward_list(const forward_list& other); //Конструктор копирования
+	
+	~forward_list(); //Деструктор
+	
+	void clear(); //Функция очистки списка
+	
+	//Далее представлены 4 функции для вставки элемента в начало и конец списка
+	void emplace_back(const Ty& val);
+	
+	void emplace_front(const Ty &val);
+	
+	void emplace_back(const Ty&& val);
+	
+	void emplace_front(const Ty &&val); 
+	
+	void pop_back(); //Удаление последнего элемента списка
+	
+	void pop_front(); //Удаление первого элемента списка
+	
+	size_t count() const; //Возвращает значение переменной count_
 
 ## Operators
+	forward_list& operator=(const forward_list& other); //Операор копирующего присваивания
 
 ## OTHER

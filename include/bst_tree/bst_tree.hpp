@@ -20,26 +20,31 @@ public:
 
 	void insert(const Ty& value);
 
-	void pop_all_with(const Ty& value, node<Ty>** this_ = &root_);
+	void pop_all_with(const Ty& value);
 
 	const node<Ty>* is_node(const Ty& value) const;
 
-	size_t size() const;
+	std::size_t size() const;
 
-	void clear(node<Ty>* this_ = root_);
+	void clear();
  
 	bst_tree& operator=(const bst_tree& other);
 
 private:
   
 	node<Ty>* root_;
-	size_t count_;
+	std::size_t count_;
 
 	void create_node(node<Ty>*& this_, const Ty& value);
 
 	void copy_nodes(node<Ty>*& dest, const node<Ty>* src);
 
 	void del(node<Ty>** this_);
+
+	void pop(const Ty& value, node<Ty>** this_);
+
+	void rm(node<Ty>* this_);
+
 };
 
 //////////////////////////////////REALISE//////////////////////////////
@@ -48,7 +53,7 @@ template<class Ty>
 void bst_tree<Ty>::create_node(node<Ty>*& this_, const Ty& value) {
 
 	this_ = new node<Ty>();
-	this_->data = value;
+	this_->data_ = value;
 	this_->child_1_ = nullptr;
 	this_->child_2_ = nullptr;
 	++count_;
@@ -61,6 +66,8 @@ void bst_tree<Ty>::copy_nodes(node<Ty>*& dest, const node<Ty>* src) {
 		create_node(dest, src->data_);
 		copy_nodes(dest->child_1_, src->child_1_);
 		copy_nodes(dest->child_2_, src->child_2_);
+	} else {
+		dest = nullptr;
 	}
 }
 
@@ -76,9 +83,9 @@ bst_tree<Ty>::bst_tree()
 template<class Ty>
 bst_tree<Ty>::bst_tree(const bst_tree<Ty>& other)
 	:
-	count_{other->count_} {
+	count_{ 0 } {
 
-	if (count_ == 0) {
+	if (other.count_ == 0) {
 		root_ = nullptr;
 	} else {
 		copy_nodes(root_, other.root_);
@@ -104,16 +111,28 @@ bst_tree<Ty>::~bst_tree() {
 }
 
 template<class Ty>
-bst_tree<Ty>::clear(node<Ty>* this_ = root_) {
+void bst_tree<Ty>::clear() {
+	
+	if (root_ != nullptr) {
+		rm(root_);
+	}
+	if (count_ == 0) {
+		root_ = nullptr;
+	}
+}
+
+template<class Ty>
+void bst_tree<Ty>::rm(node<Ty>* this_) {
 
 	if (this_->child_1_ != nullptr) {
-		clear(this_->child_1_);
+		rm(this_->child_1_);
 	}
 	if (this_->child_2_ != nullptr) {
-		clear(this_->child_2_);
+		rm(this_->child_2_);
 	}
-	--count_;
+
 	delete this_;
+	--count_;
 }
 
 template<class Ty>
@@ -185,21 +204,27 @@ void bst_tree<Ty>::del(node<Ty>** this_) {
 }
 
 template<class Ty>
-void bst_tree<Ty>::pop_all_with(const Ty& value, node<Ty>** this_ = &root_) {
+void bst_tree<Ty>::pop_all_with(const Ty& value) {
+
+	pop(value, &root_);
+}
+
+template<class Ty>
+void bst_tree<Ty>::pop(const Ty& value, node<Ty>** this_) {
 
 	while (*this_ != nullptr && (*this_)->data_ == value) {
 		del(this_);
 		--count_;
 	}
 
-	if (*this_ = nullptr) {
+	if (*this_ == nullptr) {
 		return;
 	}
 
 	if (value > (*this_)->data_) {
-		pop_all_with(value, (*this_)->&child_2_);
+		pop(value, &(*this_)->child_2_);
 	} else {
-		pop_all_with(value, (*this_)->&child_1_);
+		pop(value, &(*this_)->child_1_);
 	}
 }
 

@@ -27,7 +27,7 @@ const node<Ty>* is_node(const Ty& value) const; // проверка на вхо�
 
 size_t size() const; //число узлов
 
-void clear(node<Ty>* this_ = root_); //очистка всех узлов
+void clear(); //очистка всех узлов
 
 void create_node(node<Ty>*& this_, const Ty& value); //констурктор узла
 

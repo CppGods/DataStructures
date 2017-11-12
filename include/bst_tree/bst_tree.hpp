@@ -1,7 +1,13 @@
-﻿template<typename T>
+﻿#ifndef BST_TREE_HPP
+#define BST_TREE_HPP
+
+template<class Key, class Compare = std::less<Key>>
+class set;
+
+template<class Ty>
 struct node {
 
-	T data_;
+	Ty data_;
 	node* child_1_;
 	node* child_2_;
 };
@@ -20,9 +26,9 @@ public:
 
 	void insert(const Ty& value);
 
-	void pop_all_with(const Ty& value);
+	void erase(const Ty& value);
 
-	const node<Ty>* is_node(const Ty& value) const;
+	bool is_node(const Ty& value) const;
 
 	std::size_t size() const;
 
@@ -33,29 +39,33 @@ public:
 private:
   
 	node<Ty>* root_;
+
 	std::size_t count_;
 
-	void create_node(node<Ty>*& this_, const Ty& value);
+	void create_node(node<Ty>*& cur, const Ty& value);
 
 	void copy_nodes(node<Ty>*& dest, const node<Ty>* src);
 
-	void del(node<Ty>** this_);
+	void del_node(node<Ty>*& cur);
 
-	void pop(const Ty& value, node<Ty>** this_);
+	void rm(node<Ty>* cur);
 
-	void rm(node<Ty>* this_);
+	node<Ty>** parent(const Ty& value);
+
+	template<class Key, class Compare = std::less<Key>>
+	friend class set;
 
 };
 
 //////////////////////////////////REALISE//////////////////////////////
 
 template<class Ty>
-void bst_tree<Ty>::create_node(node<Ty>*& this_, const Ty& value) {
+void bst_tree<Ty>::create_node(node<Ty>*& cur, const Ty& value) {
 
-	this_ = new node<Ty>();
-	this_->data_ = value;
-	this_->child_1_ = nullptr;
-	this_->child_2_ = nullptr;
+	cur = new node<Ty>();
+	cur->data_ = value;
+	cur->child_1_ = nullptr;
+	cur->child_2_ = nullptr;
 	++count_;
 }
 
@@ -88,6 +98,7 @@ bst_tree<Ty>::bst_tree(const bst_tree<Ty>& other)
 	if (other.count_ == 0) {
 		root_ = nullptr;
 	} else {
+		count_ = other.count_();
 		copy_nodes(root_, other.root_);
 	}
 
@@ -115,23 +126,21 @@ void bst_tree<Ty>::clear() {
 	
 	if (root_ != nullptr) {
 		rm(root_);
-	}
-	if (count_ == 0) {
 		root_ = nullptr;
 	}
 }
 
 template<class Ty>
-void bst_tree<Ty>::rm(node<Ty>* this_) {
+void bst_tree<Ty>::rm(node<Ty>* cur) {
 
-	if (this_->child_1_ != nullptr) {
-		rm(this_->child_1_);
+	if (cur->child_1_ != nullptr) {
+		rm(cur->child_1_);
 	}
-	if (this_->child_2_ != nullptr) {
-		rm(this_->child_2_);
+	if (cur->child_2_ != nullptr) {
+		rm(cur->child_2_);
 	}
 
-	delete this_;
+	delete cur;
 	--count_;
 }
 
@@ -161,13 +170,13 @@ void bst_tree<Ty>::insert(const Ty& value) {
 }
 
 template<class Ty>
-const node<Ty>* bst_tree<Ty>::is_node(const Ty& value) const {
+bool bst_tree<Ty>::is_node(const Ty& value) const {
 
 	node<Ty> *cur = root_;
 
 	while (cur != nullptr) {
 		if (cur->data_ == value) {
-			return cur;
+			return true;
 		}
 		if (value < cur->data_) {
 			cur = cur->child_1_;
@@ -176,7 +185,7 @@ const node<Ty>* bst_tree<Ty>::is_node(const Ty& value) const {
 		}
 	}
 
-	return nullptr;
+	return false;
 }
 
 template<class Ty>
@@ -186,45 +195,62 @@ size_t bst_tree<Ty>::size() const {
 }
 
 template<class Ty>
-void bst_tree<Ty>::del(node<Ty>** this_) {
+void bst_tree<Ty>::del_node(node<Ty>*& cur) {
 
-	node<Ty>* left_leaf = *this_;
-	if ((*this_)->child_2_ == nullptr) {
-		*this_ = left_leaf->child_1_;
-	} else {
-		left_leaf = left_leaf->child_2_;
-		while (left_leaf->child_1_ != nullptr) {
-			left_leaf = left_leaf->child_1_;
-		}
-		left_leaf->child_1_ = (*this_)->child_1_;
-		left_leaf = *this_;
-		*this_ = left_leaf->child_2_;
-	}
-	delete left_leaf;
-}
-
-template<class Ty>
-void bst_tree<Ty>::pop_all_with(const Ty& value) {
-
-	pop(value, &root_);
-}
-
-template<class Ty>
-void bst_tree<Ty>::pop(const Ty& value, node<Ty>** this_) {
-
-	while (*this_ != nullptr && (*this_)->data_ == value) {
-		del(this_);
-		--count_;
-	}
-
-	if (*this_ == nullptr) {
+	if (cur == nullptr) {
 		return;
 	}
 
-	if (value > (*this_)->data_) {
-		pop(value, &(*this_)->child_2_);
+	node<Ty>* left_leaf = cur;
+	if (left_leaf->child_2_ == nullptr) {
+		if (left_leaf->child_1_ == nullptr) {
+			delete left_leaf;
+			cur = nullptr;
+			--count_;
+			return;
+		} else {
+			left_leaf = left_leaf->child_1_;
+		}
 	} else {
-		pop(value, &(*this_)->child_1_);
+		left_leaf = left_leaf->child_2_;
 	}
+	while (left_leaf->child_1_ != nullptr) {
+		left_leaf = left_leaf->child_1_;
+	}
+	left_leaf->child_1_ = cur->child_1_;
+	left_leaf = cur;
+	cur = cur->child_2_;
+	delete left_leaf;
+	--count_;
 }
 
+template<class Ty>
+node<Ty>** bst_tree<Ty>::parent(const Ty& value) {
+	
+	if (count_ == 0) {
+		return nullptr;
+	}
+
+	node<Ty>*& cur = root_;
+	while ((cur != nullptr) && (cur->data_ != value)) {
+		if (cur->data_ < value) {
+			cur = cur->child_2_;
+		} else {
+			cur = cur->child_1_;
+		}
+	}
+
+	return &cur;
+}
+
+template<class Ty>
+void bst_tree<Ty>::erase(const Ty& value) {
+	
+	if (count_ == 0) {
+		return;
+	}
+	node<Ty>*& cur = *parent(value);
+	del_node(cur);
+}
+
+#endif // !BST_TREE_HPP

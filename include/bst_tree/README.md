@@ -9,31 +9,25 @@ class bst_tree
 
 node<Ty> root_
 
-size_t count_
+std::size_t count_
 
 ## Methods
 
-bst_tree() //констурктор по-умолчанию
+bst_tree(); //констурктор по-умолчанию
 
-bst_tree(const bst_tree& other) //констурктор копирования
+bst_tree(const bst_tree& other); //констурктор копирования
 
-~bst_tree() //деструктор
+~bst_tree(); //деструктор
 
 void insert(const Ty& value); //вставка элемента
 
-void pop_all_with(const Ty& value, node<Ty>** this_ = &root_); //вычленение всех элементов со значением value
+void erase(const Ty& value); //вычленение всех элементов со значением value
 
-const node<Ty>* is_node(const Ty& value) const; // проверка на вхождение
+bool is_node(const Ty& value) const; // проверка на вхождение
 
-size_t size() const; //число узлов
+std::size_t size() const; //число узлов
 
 void clear(); //очистка всех узлов
-
-void create_node(node<Ty>*& this_, const Ty& value); //констурктор узла
-
-void copy_nodes(node<Ty>*& dest, const node<Ty>* src); //копирование узлов поддерева
-
-void del(node<Ty>** this_); //удаление узла, на который указывает *this_
 
 ## Operators
 
@@ -48,3 +42,6 @@ struct node<T> {
 	node<T>* child_1_;
 	node<T>* child_2_;
 }
+
+template<class Key, class Compare = std::less<Key>>
+friend class set;

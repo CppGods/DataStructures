@@ -91,12 +91,12 @@ void list<Ty>::swap(list& other)
 template <class Ty>
 Ty& list<Ty>::back() const
 {
-	return tail;
+	return tail->data;
 }
 template <class Ty>
 Ty& list<Ty>::front() const
 {
-	return head;
+	return head->data;
 }
 
 template <class Ty>

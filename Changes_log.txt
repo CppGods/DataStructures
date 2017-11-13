@@ -26,4 +26,13 @@
 	+Начаты изучение и разработка queue на основе forward_list (NeverMore27)
 	+Начаты изучение и разработка deque на основе list (SVolkoff)
 	+Начаты изучение и разработка set на основе bst_tree (Spardoks)
+
+06.11.2017 - 13.11.2017 - TL:Spardoks
 	
+	+Реализованы основные методы и операторы класса set (Spardoks)
+	+Произведены поправки в классе bst_tree (Spardoks)
+	+Произведены поправки в классах forward_list и stack (NeverMore27)
+	+Произведены поправки в классах list и array (SVolkoff)
+	+Частично реализован класс queue (NeverMore27)
+	+Частично реализован класс deque (SVolkoff)
+	+TL = SVolkoff

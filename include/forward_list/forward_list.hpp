@@ -1,3 +1,6 @@
+#include <iostream>
+
+
 	template <class Ty>
 	class forward_list {
 	private:

@@ -32,14 +32,12 @@
 	void forward_list<Ty>:: Show()
 	{
 			node *temp = head;
-
-
 			while (temp != nullptr)
 			{
 				std::cout << temp->data << " ";
 				temp = temp->next;
 			}
-		}
+	}
 	template <class Ty>
 	forward_list<Ty>::forward_list(const forward_list& other)
 	{

@@ -123,25 +123,7 @@ void Deque<Type>::pop_front()
 template<class Type>
 void Deque<Type>::erase(size_t Index)
 {
-	if (Index == 0)
-	{
-		_data.pop_front();
-	}
-	else
-		if (Index > _data.size())
-		{
-			_data.pop_back();
-		}
-		else
-		{
-			Node<Type> *before = _data.begin();
-			while (Index-- > 0)
-				before = before->next;
-			Node<Type> *tmp = new Node<Type>;
-			before->prev->next = before->next;
-			before->next->prev = before->prev;
-			delete before;
-		}
+	_data.erase(Index);
 }
 
 template<class Type>

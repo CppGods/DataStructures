@@ -35,7 +35,8 @@ public:
 	size_t size() const; //Возвращает значение переменной count_
 	Ty& back() const;       //Предоставляет доступ к последнему элементу 
 	Ty& front() const;         //Предоставляет доступ к первому элементу 
-	void insert(size_t Index, const Ty &val);       ///Вставка элемента в указанную позицию 
+	void insert(size_t Index, const Ty &val);       //Вставка элемента в указанную позицию 
+	void erase(size_t Index);		//Удаление элемента из указанной позиции
 	void push_back(const Ty &val);        //Вставка элемента в конец списка
 	void push_front(const Ty &val);       //Вставка элемента в начало списка
 	void pop_back();        //Удаление элемента из конца списка

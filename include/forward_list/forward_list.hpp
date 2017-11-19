@@ -26,7 +26,11 @@
 		Ty pop_front();
 		size_t count();
 		void Show()
-		{
+		void swap(forward_list& other);
+	};
+	template <class Ty>
+	void forward_list<Ty>:: Show()
+	{
 			node *temp = head;
 
 
@@ -36,9 +40,6 @@
 				temp = temp->next;
 			}
 		}
-	private:
-		void swap(forward_list& other);
-	};
 	template <class Ty>
 	forward_list<Ty>::forward_list(const forward_list& other)
 	{

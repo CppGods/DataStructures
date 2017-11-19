@@ -37,9 +37,10 @@ public:
 	void push_front(const Ty &val);
 	void pop_back();
 	void pop_front();
-private:
 	void swap(list& other);
 	void clear();
+	Node<Ty>* begin();
+	Node<Ty>* end();
 };
 
 
@@ -204,4 +205,15 @@ template< typename Ty >
 size_t list<Ty>::size() const
 {
 	return (count_);
+}
+template<class Ty>
+Node<Ty>* list<Ty>::begin()
+{
+	return head;
+}
+
+template<class Ty>
+Node<Ty>* list<Ty>::end()
+{
+	return tail;
 }

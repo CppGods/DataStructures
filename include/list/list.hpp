@@ -39,6 +39,7 @@ public:
 	void pop_front();
 	void swap(list& other);
 	void clear();
+	void erase(size_t Index);
 	Node<Ty>* begin();
 	Node<Ty>* end();
 };
@@ -172,6 +173,29 @@ void list<Ty>::insert(size_t Index, const Ty &val)
 			tmp->next = before;
 			count_++;
 		}
+}
+template<class Ty>
+void list<Ty>::erase(size_t Index)
+{
+	if (Index == 0)
+	{
+		pop_front();
+	}
+	else
+		if (Index >=size())
+		{
+			pop_back();
+		}
+		else
+		{
+			Node<Ty> *before = head;
+			while (Index-- > 0)
+				before = before->next;
+			before->prev->next = before->next;
+			before->next->prev = before->prev;
+			delete before;
+		}
+	count_--;
 }
 template <class Ty>
 void list<Ty>::pop_front()

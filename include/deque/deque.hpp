@@ -1,5 +1,6 @@
 #include"include\list\list.hpp"
 
+
 template <class Type>
 class Deque 
 {
@@ -11,8 +12,8 @@ class Deque
 		size_t size();
 		void swap(Deque& other);
 		Deque& operator=(const Deque& other);
-		Type& operator[](size_t Index)const;
-		Type&	at(size_t Index)const;
+		Type& operator[](size_t Index);
+		Type&	at(size_t Index);
 		Type& back() const;
 		Type& front() const;
 		bool empty() const;
@@ -34,7 +35,7 @@ Deque<Type>::Deque()
 template<class Type>
 size_t Deque<Type>::size()
 {
-	return _data.count();
+	return _data.size();
 }
 
 template <class Type>
@@ -43,17 +44,33 @@ Deque<Type>& Deque<Type>:: operator=(const Deque<Type>& other)
 	_data = other._data;
 }
 template<class Type>
-Type & Deque<Type>::operator[](size_t Index) const
+Type & Deque<Type>::operator[](size_t Index) 
 {
-	Node<Type> *before = _data->head;
+	if (Index == 0)
+	{
+		return _data.front();
+	}
+	if (Index > _data.size())
+	{
+		return _data.back();
+	}
+	Node<Type> *before = _data.begin();
 	while (Index-- > 0)
 		before = before->next;
 	return before->data;
 }
 template<class Type>
-Type & Deque<Type>::at(size_t Index) const
+Type & Deque<Type>::at(size_t Index) 
 {
-	Node<Type> *before = _data.head;
+	if (Index == 0)
+	{
+		return _data.front();
+	}
+	if (Index > _data.size())
+	{
+		return _data.back();
+	}
+	Node<Type> *before = _data.begin();
 	while (Index-- > 0)
 		before = before->next;
 	return before->data;
@@ -111,13 +128,13 @@ void Deque<Type>::erase(size_t Index)
 		_data.pop_front();
 	}
 	else
-		if (Index > count_)
+		if (Index > _data.size())
 		{
 			_data.pop_back();
 		}
 		else
 		{
-			Node<Type> *before = _data.head;
+			Node<Type> *before = _data.begin();
 			while (Index-- > 0)
 				before = before->next;
 			Node<Type> *tmp = new Node<Type>;

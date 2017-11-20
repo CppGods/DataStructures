@@ -10,6 +10,7 @@
 			node* next;
 			node() : next(nullptr) {};
 			node(const Ty& t) : data{ t }, next{ nullptr } {};
+			node(Ty&& t) : data{ std::move(t) }, next{ nullptr } {};
 		};
 		node *head;
 		size_t count_;
@@ -20,27 +21,18 @@
 		forward_list& operator=(const forward_list& other);
 		~forward_list();
 		void clear();
-		void emplace_back(const Ty& val);
-		void emplace_front(const Ty &val);
-		void emplace_back(const Ty&& val);
-		void emplace_front(const Ty &&val);
+		void push_back(const Ty& val);
+		void push_front(const Ty &val);
+		template<typename Args>
+		void emplace_back(Args&& val);
+		template<typename Args>
+		void emplace_front(Args &&val);
 		bool empty();
 		Ty pop_back();
 		Ty pop_front();
 		size_t count();
-		void Show()
 		void swap(forward_list& other);
 	};
-	template <class Ty>
-	void forward_list<Ty>:: Show()
-	{
-			node *temp = head;
-			while (temp != nullptr)
-			{
-				std::cout << temp->data << " ";
-				temp = temp->next;
-			}
-	}
 	template <class Ty>
 	forward_list<Ty>::forward_list(const forward_list& other)
 	{
@@ -98,7 +90,7 @@
 	}
 
 	template <class Ty>
-	void forward_list<Ty>::emplace_front(const Ty &val)
+	void forward_list<Ty>::push_front(const Ty &val)
 	{
 		node *tmp = new node;
 		tmp->data = val;
@@ -108,17 +100,17 @@
 	}
 
 	template <class Ty>
-	void forward_list<Ty>::emplace_front(const Ty &&val)
+	template<typename Args>
+	void forward_list<Ty>::emplace_front(Args &&val)
 	{
-		node *tmp = new node;
-		tmp->data = val;
+		node *tmp = new node(std::forward<Args>( val ));
 		tmp->next = head;
 		head = tmp;
 		count_++;
 	}
 
 	template <class Ty>
-	void forward_list<Ty>::emplace_back(const Ty &val)
+	void forward_list<Ty>::push_back(const Ty &val)
 	{
 		node* front = head;
 		if (front != nullptr)
@@ -138,7 +130,8 @@
 	}
 
 	template <class Ty>
-	void forward_list<Ty>::emplace_back(const Ty &&val)
+	template<typename Args>
+	void forward_list<Ty>::emplace_back(Args &&val)
 	{
 		node* front = head;
 		if (front != nullptr)
@@ -147,11 +140,11 @@
 			{
 				front = front->next;
 			}
-			front->next = new node(val);
+			front->next = new node(std::forward<Args>( val ));
 		}
 		else
 		{
-			front = new node(val);
+			front = new node(std::forward<Args>( val ));
 			head = front;
 		}
 		count_++;

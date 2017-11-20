@@ -7,7 +7,6 @@ class Queue
 	forward_list<Ty> _items;
 public:
 	Queue();
-	~Queue();
 	void Enqueue(const Ty& value);
 	Ty Dequeue();
 	size_t count();
@@ -25,11 +24,6 @@ Queue<Ty>& Queue<Ty>:: operator=(const Queue<Ty>& other)
 template <class Ty>
 Queue<Ty>::Queue() {}
 
-template <class Ty>
-Queue<Ty>::~Queue()
-{
-	_items.clear();
-}
 
 template <class Ty>
 void Queue<Ty>:: Enqueue(const Ty& value)

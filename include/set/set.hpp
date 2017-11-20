@@ -29,15 +29,15 @@ public:
 
 	set & operator=(set const & other);
 
-	bool operator>(set const & other);
+	bool operator>(set const & other) const;
 
-	bool operator<(set const & other);
+	bool operator<(set const & other) const;
 
-	bool operator==(set const & other);
+	bool operator==(set const & other) const;
 
-	bool operator>=(set const & other);
+	bool operator>=(set const & other) const;
 
-	bool operator<=(set const & other);
+	bool operator<=(set const & other) const;
 
 private:
 
@@ -45,7 +45,7 @@ private:
 
 	Compare* key_comp_;
 
-	void get_key(Key * list, node<Key> const * from, std::size_t & cur, std::size_t const max);
+	void get_key(Key * list, node<Key> const * from, std::size_t & cur, std::size_t const max) const;
 };
 
 ////////////////////////////////////////REALISE////////////////////////////////////////
@@ -149,13 +149,13 @@ template<class Key, class Compare = std::less<Key>>
 void set<Key, Compare>::swap(set & other) {
 
 	std::swap(keys_, other.keys_);
-	std::swap(key_copm_, other.key_comp);
+	std::swap(key_comp_, other.key_comp_);
 }
 
 template<class Key, class Compare = std::less<Key>>
 std::size_t set<Key, Compare>::list_keys(Key * list, std::size_t const count) const {
 
-	if (size() < count || count == 0 || list == nullptr) {
+	if ((size() < count) || (count == 0) || (list == nullptr)) {
 		return 0;
 	}
 	std::size_t i = 0;
@@ -165,12 +165,8 @@ std::size_t set<Key, Compare>::list_keys(Key * list, std::size_t const count) co
 }
 
 template<class Key, class Compare = std::less<Key>>
-void set<Key, Compare>::get_key(Key * list, node<Key> const * from, std::size_t & cur, std::size_t const max) {
+void set<Key, Compare>::get_key(Key * list, node<Key> const * from, std::size_t & cur, std::size_t const max) const {
 	
-	if (cur == 0) {
-		return;
-	}
-
 	if (from->child_1_ != nullptr) {
 		get_key(list, from->child_1_, cur, max);
 	}
@@ -200,14 +196,18 @@ set<Key, Compare> & set<Key, Compare>::operator=(set<Key, Compare> const & other
 }
 
 template<class Key, class Compare = std::less<Key>>
-bool set<Key, Compare>::operator>=(set<Key, Compare> const & other) {
+bool set<Key, Compare>::operator>=(set<Key, Compare> const & other) const {
 
 	std::size_t sz_other = other.size();
-	std::size_t sz_cur = size()
+	std::size_t sz_cur = size();
 	if (sz_cur < sz_other) {
 		return false;
 	}
-	Key const * list = other.list_keys(sz_other);
+	if (sz_cur == 0 || sz_other == 0) {
+		return true;
+	}
+	Key * list = new Key[sz_other];
+	other.list_keys(list,sz_other);
 	for (std::size_t i = 0; i < sz_other; ++i) {
 		if (find(list[i]) == false) {
 			return false;
@@ -218,25 +218,25 @@ bool set<Key, Compare>::operator>=(set<Key, Compare> const & other) {
 }
 
 template<class Key, class Compare = std::less<Key>>
-bool set<Key, Compare>::operator<=(set<Key, Compare> const & other) {
+bool set<Key, Compare>::operator<=(set<Key, Compare> const & other) const {
 
 	return (other >= *this);
 }
 
 template<class Key, class Compare = std::less<Key>>
-bool set<Key, Compare>::operator==(set<Key, Compare> const & other) {
+bool set<Key, Compare>::operator==(set<Key, Compare> const & other) const {
 
 	return ((*this >= other) && (other >= *this));
 }
 
 template<class Key, class Compare = std::less<Key>>
-bool set<Key, Compare>::operator>(set<Key, Compare> const & other) {
+bool set<Key, Compare>::operator>(set<Key, Compare> const & other) const {
 
 	return ((*this >= other) && (!(*this <= other)));
 }
 
 template<class Key, class Compare = std::less<Key>>
-bool set<Key, Compare>::operator<(set<Key, Compare> const & other) {
+bool set<Key, Compare>::operator<(set<Key, Compare> const & other) const {
 
 	return (other > *this);
 }

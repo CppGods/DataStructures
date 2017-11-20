@@ -27,7 +27,7 @@ Queue<Ty>::Queue() {}
 template <class Ty>
 void Queue<Ty>:: Enqueue(const Ty& value)
 	{
-		_items.emplace_front(value);
+		_items.push_front(value);
 	}
 
 template <class Ty>

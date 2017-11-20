@@ -10,7 +10,6 @@ public:
 	void Enqueue(const Ty& value);
 	Ty Dequeue();
 	size_t count();
-	void show();
 	void swap(Queue& other);
 	Queue& operator=(const Queue& other);
 };
@@ -41,12 +40,6 @@ template <class Ty>
 size_t Queue<Ty>::count()
 {
 	return _items.count();
-}
-
-template <class Ty>
-void Queue<Ty>::show()
-{
-	_items.Show();
 }
 
 template <class Ty>

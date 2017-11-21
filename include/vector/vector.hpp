@@ -148,11 +148,11 @@ const Ty* vector<Ty>::data() const{
 template<class Ty>
 void vector<Ty>::clear() {
 
-	if (count_ > 0) {
-		for (size_t i = 0; i < count_; ++i) {
-			array_[i].~Ty();
-		}
+	if (size_array_ > 0) {
+		delete[] array_;
+		array_ = nullptr;
 		count_ = 0;
+		size_array_ = 0;
 	}
 }
 
@@ -165,7 +165,7 @@ bool vector<Ty>::empty() const {
 template<class Ty>
 void vector<Ty>::push_back(const Ty& value) {
 
-	if (count_ == 0) {
+	if (size_array_ == 0) {
 		array_ = new Ty[1];
 		size_array_ = 1;
 	}
@@ -214,7 +214,6 @@ void vector<Ty>::reserve(std::size_t size) {
 		if (size > max_size()) {
 			throw "Length_error!!!";
 		} else {
-			
 			if(size_array_ == 0) {
 				array_ = new Ty[1];
 				size_array_ = 1;

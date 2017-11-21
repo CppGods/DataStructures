@@ -55,6 +55,12 @@ SCENARIO("vector pop_back") {
 	v1.pop_back();
 	REQUIRE(v1.size() == 0);
 	REQUIRE(v1.capacity() == 1);
+	REQUIRE(v1.empty() == true);
+	v1.push_back(2000);
+	v1.push_back(2001);
+	REQUIRE(v1.size() == 2);
+	REQUIRE(v1.capacity() == 2);
+	REQUIRE(v1.empty() == false);
 }
 
 SCENARIO("vector operator= and init with other") {
@@ -62,7 +68,6 @@ SCENARIO("vector operator= and init with other") {
 	vector<int> v2;
 	v2.push_back(888);
 	v2.push_back(999);
-
 	vector<int> v1(v2);
 	int tmp = v1.at(0);
 	REQUIRE(tmp == 888);
@@ -77,9 +82,22 @@ SCENARIO("vector operator= and init with other") {
 	REQUIRE(v1[0] == 888);
 	REQUIRE(v1[1] == 999);
 
+	v2.pop_back();
+	tmp = v1.at(0);
+	REQUIRE(tmp == 888);
+	REQUIRE(tmp == v1.front());
+	REQUIRE(tmp == *v1.data());
+	REQUIRE(tmp == *v1.data());
+	tmp = v1.at(1);
+	REQUIRE(tmp == 999);
+	REQUIRE(tmp == v1.back());
+	REQUIRE(tmp == *(v1.data() + 1));
+	REQUIRE(tmp == *(v1.data() + 1));
+	REQUIRE(v1[0] == 888);
+	REQUIRE(v1[1] == 999);
+
 	vector<int> v3;
 	v3 = v1;
-
 	tmp = v3.at(0);
 	REQUIRE(tmp == 888);
 	REQUIRE(tmp == v3.front());
@@ -92,6 +110,29 @@ SCENARIO("vector operator= and init with other") {
 	REQUIRE(tmp == *(v3.data() + 1));
 	REQUIRE(v3[0] == 888);
 	REQUIRE(v3[1] == 999);
+
+	v1.pop_back();
+	tmp = v3.at(0);
+	REQUIRE(tmp == 888);
+	REQUIRE(tmp == v3.front());
+	REQUIRE(tmp == *v3.data());
+	REQUIRE(tmp == *v3.data());
+	tmp = v3.at(1);
+	REQUIRE(tmp == 999);
+	REQUIRE(tmp == v3.back());
+	REQUIRE(tmp == *(v3.data() + 1));
+	REQUIRE(tmp == *(v3.data() + 1));
+	REQUIRE(v3[0] == 888);
+	REQUIRE(v3[1] == 999);
+
+	v3.pop_back();
+	v3.pop_back();
+	tmp = v1.at(0);
+	REQUIRE(tmp == 888);
+	REQUIRE(tmp == v1.front());
+	REQUIRE(tmp == *v1.data());
+	REQUIRE(tmp == *v1.data());
+	REQUIRE(v1[0] == 888);
 }
 
 SCENARIO("vector clear") {
@@ -100,7 +141,7 @@ SCENARIO("vector clear") {
 	v1.push_back(1);
 	v1.push_back(2);
 	v1.clear();
-	REQUIRE(v1.capacity() == 2);
+	REQUIRE(v1.capacity() == 0);
 	REQUIRE(v1.size() == 0);
 	v1.push_back(2);
 	v1.push_back(1);
@@ -110,7 +151,7 @@ SCENARIO("vector clear") {
 	REQUIRE(v1.capacity() == 4);
 	REQUIRE(v1.size() == 3);
 	v1.clear();
-	REQUIRE(v1.capacity() == 4);
+	REQUIRE(v1.capacity() == 0);
 	REQUIRE(v1.size() == 0);
 }
 
@@ -127,6 +168,9 @@ SCENARIO("vector reserve") {
 	REQUIRE(v1.size() == 4);
 	REQUIRE(v1.capacity() == 4);
 	v1.push_back(1);
+	REQUIRE(v1.size() == 5);
+	REQUIRE(v1.capacity() == 8);
+	v1.reserve(3);
 	REQUIRE(v1.size() == 5);
 	REQUIRE(v1.capacity() == 8);
 }

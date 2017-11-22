@@ -2,7 +2,7 @@
 
 Class bst_tree - это структура, обеспечивающая эффективный способ хранения данных, взаимодействие с которыми обычно ценивается логарифмической сложностью. Служит для поддержки ассоциативных контейнеров(set/map)
 
-template <class Ty>
+template <class Ty, class Compare = std::less<Ty>>
 class bst_tree
 
 ## Memebers
@@ -10,6 +10,8 @@ class bst_tree
 node<Ty> root_
 
 std::size_t count_
+
+Compare* comp_;
 
 ## Methods
 
@@ -42,6 +44,3 @@ struct node<T> {
 	node<T>* child_1_;
 	node<T>* child_2_;
 }
-
-template<class Key, class Compare = std::less<Key>>
-friend class set;

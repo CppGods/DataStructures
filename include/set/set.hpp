@@ -1,4 +1,5 @@
-#include"include\bst_tree\bst_tree.hpp"
+#include"bst_tree.hpp"
+#include<vector>
 
 template<class Key, class Compare = std::less<Key>>
 class set {
@@ -25,7 +26,7 @@ public:
 
 	void swap(set & other);
 
-	std::size_t list_keys(Key * list, std::size_t const count) const;
+	std::vector<Key> vector_keys(std::size_t const max) const;
 
 	set & operator=(set const & other);
 
@@ -43,9 +44,7 @@ private:
 
 	bst_tree<Key>* keys_;
 
-	Compare* key_comp_;
-
-	void get_key(Key * list, node<Key> const * from, std::size_t & cur, std::size_t const max) const;
+	void get_key(std::vector<Key> & list, node<Key> const * from, std::size_t & cur, std::size_t const max) const;
 };
 
 ////////////////////////////////////////REALISE////////////////////////////////////////
@@ -53,22 +52,19 @@ private:
 template<class Key, class Compare = std::less<Key>>
 set<Key, Compare>::set() {
 
-	keys_ = new bst_tree<Key>();
-	key_comp_ = new Compare();
+	keys_ = new bst_tree<Key, Compare>();
 }
 
 template<class Key, class Compare = std::less<Key>>
 set<Key, Compare>::set(set<Key, Compare> const & other) {
 
-	keys_ = new bst_tree<Key>(*other.keys_);
-	key_comp_ = new Compare(*other.key_comp_);
+	keys_ = new bst_tree<Key, Compare>(*other.keys_);
 }
 
 template<class Key, class Compare = std::less<Key>>
 set<Key, Compare>::~set() {
 
 	delete keys_;
-	delete key_comp_;
 }
 
 template<class Key, class Compare = std::less<Key>>
@@ -93,19 +89,7 @@ bool set<Key, Compare>::find(Key const & key) const {
 template<class Key, class Compare = std::less<Key>>
 void set<Key, Compare>::erase(Key const & key) {
 
-	if (size() == 0) {
-		return;
-	}
-
-	node<Key>** cur = &keys_->root_;
-	while (((*cur) != nullptr) && ((*cur)->data_ != key)) {
-		if ((*key_comp_)((*cur)->data_, key)) {
-			cur = &(*cur)->child_2_;
-		} else {
-			cur = &(*cur)->child_1_;
-		}
-	}
-	keys_->del_node(*cur);
+	keys_->erase(key);
 }
 
 
@@ -122,64 +106,44 @@ void set<Key, Compare>::insert(Key const & key) {
 	if (find(key)) {
 		return;
 	}
-
-	if (keys_->root_ == nullptr) {
-		keys_->create_node(keys_->root_, key);
-	} else {
-		node<Key>* cur = keys_->root_;
-		do {
-			if ((*key_comp_)(key, cur->data_)) {
-				if (cur->child_1_ == nullptr) {
-					keys_->create_node(cur->child_1_, key);
-					break;
-				}
-				cur = cur->child_1_;
-			} else {
-				if (cur->child_2_ == nullptr) {
-					keys_->create_node(cur->child_2_, key);
-					break;
-				}
-				cur = cur->child_2_;
-			}
-		} while (true);
-	}
+	keys_->insert(key);
 }
 
 template<class Key, class Compare = std::less<Key>>
 void set<Key, Compare>::swap(set & other) {
 
 	std::swap(keys_, other.keys_);
-	std::swap(key_comp_, other.key_comp_);
 }
 
 template<class Key, class Compare = std::less<Key>>
-std::size_t set<Key, Compare>::list_keys(Key * list, std::size_t const count) const {
+std::vector<Key> set<Key, Compare>::vector_keys(std::size_t const max) const {
 
-	if ((size() < count) || (count == 0) || (list == nullptr)) {
-		return 0;
+	std::vector<Key> vector;
+	if ((max == 0) || (keys_->top() == nullptr)) {
+		return vector;
 	}
 	std::size_t i = 0;
-	get_key(list, keys_->root_, i, count);
+	get_key(vector, keys_->top(), i, max);
 	
-	return i;
+	return vector;
 }
 
 template<class Key, class Compare = std::less<Key>>
-void set<Key, Compare>::get_key(Key * list, node<Key> const * from, std::size_t & cur, std::size_t const max) const {
+void set<Key, Compare>::get_key(std::vector<Key> & vector, node<Key> const * from, std::size_t & cur, std::size_t const max) const {
 	
 	if (from->child_1_ != nullptr) {
-		get_key(list, from->child_1_, cur, max);
+		get_key(vector, from->child_1_, cur, max);
 	}
 
 	if ((cur == max) || (cur == size())) {
 		return;
 	}
 
-	list[cur] = from->data_;
+	vector.push_back(from->data_);
 	++cur;
 
 	if (from->child_2_ != nullptr) {
-		get_key(list, from->child_2_, cur, max);
+		get_key(vector, from->child_2_, cur, max);
 	}
 	
 }
@@ -206,14 +170,12 @@ bool set<Key, Compare>::operator>=(set<Key, Compare> const & other) const {
 	if (sz_cur == 0 || sz_other == 0) {
 		return true;
 	}
-	Key * list = new Key[sz_other];
-	other.list_keys(list,sz_other);
+	std::vector<Key> vector = other.vector_keys(sz_other);
 	for (std::size_t i = 0; i < sz_other; ++i) {
-		if (find(list[i]) == false) {
+		if (find(vector[i]) == false) {
 			return false;
 		}
 	}
-	delete[] list;
 	return true;
 }
 

@@ -11,7 +11,7 @@ struct Node {
 	{
 		prev->next = next->prev = this;
 	}
-	Node(const T& t) : data(t), next( nullptr ), prev( nullptr ) {};
+	Node(const T& t) : data(t), next(nullptr), prev(nullptr) {};
 
 	Node *prev, *next;
 	T data;
@@ -22,7 +22,7 @@ class list
 private:
 	Node<Ty> *head, *tail;
 	size_t count_;
-	
+
 public:
 	list();
 	list(const list& other);
@@ -153,7 +153,7 @@ void list<Ty>::insert(size_t Index, const Ty &val)
 {
 	if (Index == 0)
 	{
-	push_front(val);
+		push_front(val);
 	}
 	else
 		if (Index > count_)
@@ -182,7 +182,7 @@ void list<Ty>::erase(size_t Index)
 		pop_front();
 	}
 	else
-		if (Index >=size())
+		if (Index >= size())
 		{
 			pop_back();
 		}
@@ -200,23 +200,34 @@ void list<Ty>::erase(size_t Index)
 template <class Ty>
 void list<Ty>::pop_front()
 {
-	Node<Ty> *tmp;
-	tmp = head->next;
-	delete head;
-	head = tmp;
-	tmp->prev = nullptr;
-	--count_;
+	if (count_ > 1)
+	{
+		Node<Ty> *tmp;
+		tmp = head->next;
+		delete head;
+		head = tmp;
+		tmp->prev = nullptr;
+		--count_;
+	}
+	else
+		clear();
 }
 
 template <class Ty>
 void list<Ty>::pop_back()
 {
-	Node<Ty> *tmp;
-	tmp = tail->prev;
-	delete tail;
-	tail = tmp;
-	tmp->next = nullptr;
-	--count_;
+	if (count_ > 1)
+	{
+		Node<Ty> *tmp;
+		tmp = tail->prev;
+		delete tail;
+		tail = tmp;
+		tmp->next = nullptr;
+		--count_;
+	}
+	else 
+		clear();
+	
 }
 
 template< typename Ty >

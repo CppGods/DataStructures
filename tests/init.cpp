@@ -498,6 +498,32 @@ SCENARIO("set clear") {
 	REQUIRE(s1.empty() == true);
 }
 
+SCENARIO("set iterators") {
+
+	set<int> s;
+	REQUIRE(s.cbegin() == s.cend());
+	s.insert(-1);
+	s.insert(0);
+	s.insert(1);
+
+	auto it = s.cbegin();
+	REQUIRE(it != s.cend());
+	REQUIRE(*it == -1);
+	++it;
+	REQUIRE(*it == 0);
+	it++;
+	REQUIRE(*it == 1);
+	--it;
+	REQUIRE(*it == 0);
+	it--;
+	REQUIRE(*it == -1);
+	++it;
+	++it;
+	REQUIRE(*it == 1);
+	++it;
+	REQUIRE(it == s.cend());
+}
+
 SCENARIO("set operator= and init with other") {
 
 	set<int> s1;
@@ -592,31 +618,6 @@ SCENARIO("set other operators") {
 	REQUIRE((s1 == s2) == false);
 }
 
-SCENARIO("set vector of keys") {
 
-	set<double> s1;
-	std::vector<double> v1 = s1.vector_keys(10);
-	REQUIRE(v1.empty() == true);
-
-	s1.insert(1.0);
-	v1 = s1.vector_keys(1);
-	REQUIRE(v1.empty() == false);
-	REQUIRE(v1[0] == 1.0);
-	REQUIRE(v1.size() == 1);
-
-	s1.insert(-1.0);
-	s1.insert(2);
-	v1 = s1.vector_keys(3);
-	std::vector<double> v2 = s1.vector_keys(2);
-	REQUIRE(v1.empty() == false);
-	REQUIRE(v1[0] == -1.0);
-	REQUIRE(v1[1] == 1.0);
-	REQUIRE(v1[2] == 2.0);
-	REQUIRE(v1.size() == 3);
-	REQUIRE(v2.empty() == false);
-	REQUIRE(v2[0] == -1.0);
-	REQUIRE(v2[1] == 1.0);
-	REQUIRE(v2.size() == 2);
-}
 
 //////////////////////////////////////////////set///////////////////////////////////////////////////////////

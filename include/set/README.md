@@ -37,8 +37,9 @@ bool empty() const; // проверка на пустоту
 
 void swap(set & other); // обменивает элементы двух контейнеров
 
-std::size_t list_keys(Key * list, std::size_t const count) const; // занос count ключей в массив list,
-//возвращает количество записанных в массив ключей
+TSetBidirectionalIterator cbegin(); // возвращает константный итератор на начало контейнера
+
+TSetBidirectionalIterator cend(); // возвращает константный итератор на конец контейнера
 
 ## Operators
 
@@ -55,6 +56,8 @@ bool operator>=(set const & other);
 bool operator<=(set const & other);
 
 ## Other
+
+class TSetBidirectionalIterator;
 
 template <class Ty>
 class bst_tree

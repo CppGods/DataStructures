@@ -21,6 +21,8 @@ set(); //констурктор по-умолчанию
 
 set(set const & other); //констурктор копирования
 
+set(set && other); //констурктор перемещения
+
 ~set(); //деструктор
 
 void insert(Key const & value); //вставка ключа
@@ -44,6 +46,8 @@ TSetBidirectionalIterator cend(); // возвращает константный
 ## Operators
 
 set & operator=(set const & other);
+
+set & operator=(set && other);
 
 bool operator>(set const & other);
 

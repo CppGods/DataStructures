@@ -1,59 +1,45 @@
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
+
+#include <utility>
+
 template <class Ty>
 class vector {
 
 public:
 
   vector();
-  
-  vector(const vector& other);
-  
+  vector(vector const & other);
+  vector(vector && other);
   ~vector();
-  
-  void assign( std::size_t count, const Ty& value );
-  
-  Ty& at(std::size_t index);
-
-  const Ty& at(std::size_t index) const;
-  
-  const Ty& back() const;
-
+  void assign( std::size_t count, Ty const & value );
+  Ty & at(std::size_t index);
+  Ty const & at(std::size_t index) const;
+  Ty const & back() const;
   std::size_t capacity() const;
-  
   void clear();
-  
-  const Ty* data() const;
-  
+  Ty const * data() const;
   bool empty() const;
-  
-  const Ty& front() const;
-  
+  Ty const & front() const;
   std::size_t max_size() const;
-
-  void push_back(const Ty& value);
-
+  void push_back(Ty const & value);
   void pop_back();
-
   void reserve(std::size_t size);
-  
   void resize(std::size_t count);
-
   std::size_t size() const;
-
   void shrink_to_fit();
- 
-  vector& operator=(const vector& other);
-  
-  Ty& operator[](std::size_t index);
-  
-  const Ty& operator[](std::size_t index) const;
+  vector & operator=(vector const & other);
+  vector & operator=(vector && other);
+  Ty & operator[](std::size_t index);
+  Ty const & operator[](std::size_t index) const;
 
 private:
-  
-  void swap(vector& other);
 
   Ty* array_;
   size_t size_array_;
   size_t count_;
+
+  void swap(vector & other);
 };
 
 
@@ -62,21 +48,26 @@ private:
 
 template<class Ty>
 vector<Ty>::vector() 
-	:
-	array_{ nullptr },
-	size_array_{ 0 },
-	count_{ 0 } {
+	: array_{ nullptr }
+	, size_array_{ 0 }
+	, count_{ 0 } {
 
 }
 
 template<class Ty>
-vector<Ty>::vector(const vector<Ty>& other) 
-	:
-	size_array_{ other.size_array_ },
-	count_{ other.count_ } {
+vector<Ty>::vector(vector<Ty> const & other) 
+	: size_array_{ other.size_array_ }
+	, count_{ other.count_ } {
 
 	array_ = new Ty[size_array_];
 	std::copy(other.array_, other.array_ + count_, array_);
+}
+
+template<class Ty>
+vector<Ty>::vector(vector<Ty> && other)
+	: vector() {
+
+	swap(other);
 }
 
 template<class Ty>
@@ -86,7 +77,7 @@ vector<Ty>::~vector() {
 }
 
 template<class Ty>
-vector<Ty>& vector<Ty>::operator=(const vector<Ty>& other) {
+vector<Ty> & vector<Ty>::operator=(vector<Ty> const & other) {
 
 	if (this != &other) {
 		vector<Ty> tmp(other);
@@ -96,7 +87,14 @@ vector<Ty>& vector<Ty>::operator=(const vector<Ty>& other) {
 }
 
 template<class Ty>
-void vector<Ty>::swap(vector<Ty>& other) {
+vector<Ty> & vector<Ty>::operator=(vector<Ty> && other) {
+
+	swap(other);
+	return *this;
+}
+
+template<class Ty>
+void vector<Ty>::swap(vector<Ty> & other) {
 
 	std::swap(array_, other.array_);
 	std::swap(size_array_, other.size_array_);
@@ -104,7 +102,7 @@ void vector<Ty>::swap(vector<Ty>& other) {
 }
 
 template<class Ty>
-Ty& vector<Ty>::at(std::size_t index) {
+Ty & vector<Ty>::at(std::size_t index) {
 
 	if (index < count_) {
 		return array_[index];
@@ -113,7 +111,7 @@ Ty& vector<Ty>::at(std::size_t index) {
 }
 
 template<class Ty>
-const Ty& vector<Ty>::at(std::size_t index) const {
+Ty const & vector<Ty>::at(std::size_t index) const {
 
 	if (index < count_) {
 		return array_[index];
@@ -122,7 +120,7 @@ const Ty& vector<Ty>::at(std::size_t index) const {
 }
 
 template<class Ty>
-const Ty& vector<Ty>::back() const {
+Ty const & vector<Ty>::back() const {
 	
 	if(count_ > 0) {
 		return array_[count_ - 1];
@@ -131,7 +129,7 @@ const Ty& vector<Ty>::back() const {
 }
 
 template<class Ty>
-const Ty& vector<Ty>::front() const {
+Ty const & vector<Ty>::front() const {
 	
 	if(count_ > 0) {
 		return array_[0];
@@ -140,7 +138,7 @@ const Ty& vector<Ty>::front() const {
 }
 
 template<class Ty>
-const Ty* vector<Ty>::data() const{
+Ty const * vector<Ty>::data() const{
 
 	return array_;
 }
@@ -163,7 +161,7 @@ bool vector<Ty>::empty() const {
 }
 
 template<class Ty>
-void vector<Ty>::push_back(const Ty& value) {
+void vector<Ty>::push_back(Ty const & value) {
 
 	if (size_array_ == 0) {
 		array_ = new Ty[1];
@@ -190,13 +188,13 @@ void vector<Ty>::push_back(const Ty& value) {
 }
 
 template<class Ty>
-size_t vector<Ty>::size() const {
+std::size_t vector<Ty>::size() const {
 
 	return count_;
 }
 
 template<class Ty>
-size_t vector<Ty>::capacity() const {
+std::size_t vector<Ty>::capacity() const {
 
 	return size_array_;
 }
@@ -286,7 +284,7 @@ void vector<Ty>::shrink_to_fit() {
 }
 
 template<class Ty>
-void vector<Ty>::assign( std::size_t count, const Ty& value ) {
+void vector<Ty>::assign( std::size_t count, Ty const & value ) {
 	
 	if(count > max_size()) {
 		throw "Length_error!!!";
@@ -299,13 +297,13 @@ void vector<Ty>::assign( std::size_t count, const Ty& value ) {
 }
 
 template<class Ty>
-Ty& vector<Ty>::operator[](std::size_t index) {
+Ty & vector<Ty>::operator[](std::size_t index) {
 
 	return array_[index];
 }  
 
 template<class Ty>
-const Ty& vector<Ty>::operator[](std::size_t index) const {  
+Ty const & vector<Ty>::operator[](std::size_t index) const {  
 	
 	return array_[index];
 }
@@ -317,7 +315,8 @@ void vector<Ty>::pop_back() {
 		array_[count_ - 1].~Ty();
 		--count_;
 	} else {
-		throw "vector is EMPTY!";
+		throw "Vector is EMPTY!";
 	}
 }
 
+#endif // !VECTOR_HPP

@@ -1,5 +1,6 @@
 #include "include\bst_tree\bst_tree.hpp"
-#include<vector>
+#include <vector>
+#include <utility>
 
 template<class Key, class Compare = std::less<Key>>
 class set {
@@ -7,28 +8,25 @@ class set {
 public:
 
 	class TSet_Bidiretional_Iterator
-		:
-		public std::iterator<std::bidirectional_iterator_tag, Key > {
+		: public std::iterator<std::bidirectional_iterator_tag, Key > {
 
 		friend class set;
 
 	private:
 
 		TSet_Bidiretional_Iterator()
-			:
-			ptr_{ nullptr },
-			size_{ 0 },
-			pos_{ 0 } {
+			: ptr_{ nullptr }
+			, size_{ 0 }
+			, pos_{ 0 } {
 
 		}
 
 	public:
 
 		TSet_Bidiretional_Iterator( TSet_Bidiretional_Iterator const & other)
-			:
-			ptr_{ nullptr },
-			size_{ other.size_ },
-			pos_ { other.pos_ } {
+			: ptr_{ nullptr }
+			, size_{ other.size_ }
+			, pos_ { other.pos_ } {
 
 			if (size_) {
 				ptr_ = new const Key *[size_];
@@ -125,6 +123,7 @@ public:
 
 	set();
 	set(set const & other);
+	set(set && other);
 	~set();
 	void insert(Key const & value);
 	std::size_t size() const;
@@ -135,6 +134,7 @@ public:
 	void swap(set & other);
 
 	set & operator=(set const & other);
+	set & operator=(set && other);
 	bool operator>(set const & other) const;
 	bool operator<(set const & other) const;
 	bool operator==(set const & other) const;
@@ -156,6 +156,13 @@ template<class Key, class Compare = std::less<Key>>
 set<Key, Compare>::set() {
 
 	keys_ = new bst_tree<Key, Compare>();
+}
+
+template<class Key, class Compare = std::less<Key>>
+set<Key, Compare>::set(set<Key, Compare> && other) 
+	: set() {
+
+	swap(other);
 }
 
 template<class Key, class Compare = std::less<Key>>
@@ -219,6 +226,13 @@ void set<Key, Compare>::swap(set & other) {
 }
 
 template<class Key, class Compare = std::less<Key>>
+set<Key, Compare> & set<Key, Compare>::operator=(set<Key, Compare>  && other) {
+
+	swap(other);
+	return *this;
+}
+
+template<class Key, class Compare = std::less<Key>>
 set<Key, Compare> & set<Key, Compare>::operator=(set<Key, Compare> const & other) {
 
 	if (this != &other) {
@@ -247,7 +261,6 @@ bool set<Key, Compare>::operator>=(set<Key, Compare> const & other) const {
 			return false;
 		}
 	}
-
 	return true;
 }
 

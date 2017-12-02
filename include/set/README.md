@@ -35,6 +35,9 @@ bool find(Key const & key) const; // проверка на вхождение
 
 void erase(Key const & key); // удаление ключа
 
+template <class Args>
+void emplace(Args && args); // вставляет переносом элемент, формирующийся констуктором с аргументами args
+
 bool empty() const; // проверка на пустоту
 
 void swap(set & other); // обменивает элементы двух контейнеров

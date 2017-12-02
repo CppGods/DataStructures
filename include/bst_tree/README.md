@@ -27,6 +27,9 @@ void insert(const Ty& value); //вставка элемента
 
 void erase(const Ty& value); //вычленение всех элементов со значением value
 
+template <class Args>
+void emplace(Args && args); // формирует элемент конструктором с параметрами args и перемещает его в дерево
+
 bool is_node(const Ty& value) const; // проверка на вхождение
 
 std::size_t size() const; //число узлов
@@ -42,9 +45,4 @@ bst_tree& operator=(bst_tree && other);
 ## OTHER
 
 template<typename T>
-struct node<T> {
-	
-	T data_;
-	node<T>* child_1_;
-	node<T>* child_2_;
-}
+struct node<T>

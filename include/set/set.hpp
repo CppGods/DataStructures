@@ -133,6 +133,9 @@ public:
 	bool empty() const;
 	void swap(set & other);
 
+	template <class Args>
+	void emplace(Args && args);
+
 	set & operator=(set const & other);
 	set & operator=(set && other);
 	bool operator>(set const & other) const;
@@ -223,6 +226,14 @@ template<class Key, class Compare = std::less<Key>>
 void set<Key, Compare>::swap(set & other) {
 
 	std::swap(keys_, other.keys_);
+}
+
+template <class Key, class Compare = std::less<Key>>
+template <class Args>
+void
+set<Key, Compare>::emplace(Args && args) {
+
+	keys_->emplace(args);
 }
 
 template<class Key, class Compare = std::less<Key>>

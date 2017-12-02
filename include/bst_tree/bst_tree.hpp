@@ -30,6 +30,9 @@ public:
 	bst_tree & operator=(bst_tree const & other);
 	bst_tree & operator=(bst_tree && other);
 
+	template <class Args>
+	void emplace(Args && args);
+
 private:
   
 	node<Ty> * root_;
@@ -40,10 +43,14 @@ private:
 	void copy_nodes(node<Ty> *& dest, node<Ty> const * src);
 	void del_node(node<Ty> *& ptr_on_cur);
 	void rm(node<Ty> * cur);
-	node<Ty>** parent(Ty const & value);
+	node<Ty> ** parent(Ty const & value);
+
+	template <class Args>
+	void emplace_node(node<Ty> *& cur, Args && args);
 };
 
 //////////////////////////////////REALISE//////////////////////////////
+
 
 template<class Ty, class Compare = std::less<Ty>>
 bst_tree<Ty, Compare>::bst_tree()
@@ -179,6 +186,35 @@ void bst_tree<Ty, Compare>::erase(Ty const & value) {
 	}
 }
 
+template <class Ty, class Compare = std::less<Ty >>
+template <class Args>
+void
+bst_tree<Ty, Compare>::emplace(Args && args) {
+
+	if (root_ == nullptr) {
+		emplace_node(root_, args);
+	} else {
+		node<Ty> * cur = root_;
+		node<Ty> value;
+		value.data_ = std::move(Ty(args));
+		do {
+			if ((*comp_)(value.data_, cur->data_)) {
+				if (cur->child_1_ == nullptr) {
+					emplace_node(cur->child_1_, args);
+					break;
+				}
+				cur = cur->child_1_;
+			} else {
+				if (cur->child_2_ == nullptr) {
+					emplace_node(cur->child_2_, args);
+					break;
+				}
+				cur = cur->child_2_;
+			}
+		} while (true);
+	}
+}
+
 template<class Ty, class Compare = std::less<Ty>>
 void bst_tree<Ty, Compare>::create_node(node<Ty> *& cur, Ty const & value) {
 
@@ -248,6 +284,18 @@ node<Ty>** bst_tree<Ty, Compare>::parent(Ty const & value) {
 		}
 	}
 	return cur;
+}
+
+template <class Ty, class Compare = std::less<Ty >>
+template <class Args>
+void
+bst_tree<Ty, Compare>::emplace_node(node<Ty> *& cur, Args && args) {
+
+	cur = new node<Ty>();
+	cur->data_ = std::move(Ty(args));
+	cur->child_1_ = nullptr;
+	cur->child_2_ = nullptr;
+	++count_;
 }
 
 #endif // !BST_TREE_HPP

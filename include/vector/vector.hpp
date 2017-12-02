@@ -33,6 +33,9 @@ public:
   Ty & operator[](std::size_t index);
   Ty const & operator[](std::size_t index) const;
 
+  template <class Args>
+  void emplace_back(Args && args);
+
 private:
 
   Ty* array_;
@@ -45,6 +48,7 @@ private:
 
 
 /////////////////////////////////REALISE///////////////////////////////////////
+
 
 template<class Ty>
 vector<Ty>::vector() 
@@ -317,6 +321,35 @@ void vector<Ty>::pop_back() {
 	} else {
 		throw "Vector is EMPTY!";
 	}
+}
+
+template <class Ty>
+template <class Args>
+void
+vector<Ty>::emplace_back(Args && args) {
+
+	if (size_array_ == 0) {
+		array_ = new Ty[1];
+		size_array_ = 1;
+	}
+	if (count_ == size_array_) {
+		std::size_t newsize = size_array_;
+		newsize *= 2;
+		if (newsize > max_size()) {
+			if (newsize / 2 < max_size()) {
+				newsize = max_size();
+			} else {
+				throw "Length_error!!!";
+			}
+		}
+		Ty* tmp = array_;
+		array_ = new Ty[newsize];
+		std::copy(tmp, tmp + count_, array_);
+		size_array_ = newsize;
+		delete[] tmp;
+	}
+	array_[count_] = std::move(Ty(args));
+	++count_;
 }
 
 #endif // !VECTOR_HPP

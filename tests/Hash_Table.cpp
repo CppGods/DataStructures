@@ -1,17 +1,17 @@
 #include <catch.hpp>
-#include <hash_table.hpp>
+#include <hash_table_o_a.hpp>
 
-SCENARIO("Hash_Table standart init") {
+SCENARIO("Hash_Table_O_A standart init") {
 
-	Hash_Table<int> ht1;
+	Hash_Table_O_A<int> ht1;
 	REQUIRE(ht1.find(1) == false);
 	REQUIRE(ht1.size() == 0);
 	REQUIRE(ht1.empty() == true);
 }
 
-SCENARIO("Hash_Table insert") {
+SCENARIO("Hash_Table_O_A insert") {
 
-	Hash_Table<int> ht1;
+	Hash_Table_O_A<int> ht1;
 	REQUIRE(ht1.find(1) == false);
 	ht1.insert(1);
 	REQUIRE(1 == ht1.size());
@@ -27,9 +27,9 @@ SCENARIO("Hash_Table insert") {
 	REQUIRE(3 == ht1.size());
 }
 
-SCENARIO("Hash_Table erase") {
+SCENARIO("Hash_Table_O_A erase") {
 
-	Hash_Table<int> ht1;
+	Hash_Table_O_A<int> ht1;
 	ht1.insert(1);
 
 	ht1.erase(1);
@@ -59,9 +59,9 @@ SCENARIO("Hash_Table erase") {
 	REQUIRE(ht1.find(6) == true);
 }
 
-SCENARIO("Hash_Table clear") {
+SCENARIO("Hash_Table_O_A clear") {
 
-	Hash_Table<int> ht1;
+	Hash_Table_O_A<int> ht1;
 	ht1.clear();
 	REQUIRE(ht1.size() == 0);
 	REQUIRE(ht1.find(2) == false);
@@ -86,14 +86,14 @@ SCENARIO("Hash_Table clear") {
 	REQUIRE(ht1.empty() == true);
 }
 
-SCENARIO("Hash_Table operator= and init with other") {
+SCENARIO("Hash_Table_O_A operator= and init with other") {
 
-	Hash_Table<int> ht1;
+	Hash_Table_O_A<int> ht1;
 	ht1.insert(2);
 	ht1.insert(3);
 	ht1.insert(6);
 
-	Hash_Table<int> ht2(ht1);
+	Hash_Table_O_A<int> ht2(ht1);
 	REQUIRE(ht2.find(2) == true);
 	REQUIRE(ht2.find(3) == true);
 	REQUIRE(ht2.find(6) == true);
@@ -105,7 +105,7 @@ SCENARIO("Hash_Table operator= and init with other") {
 	REQUIRE(ht2.find(6) == true);
 	REQUIRE(3 == ht2.size());
 
-	Hash_Table<int> ht3;
+	Hash_Table_O_A<int> ht3;
 	ht3 = ht2;
 	REQUIRE(ht3.find(2) == true);
 	REQUIRE(ht3.find(3) == true);

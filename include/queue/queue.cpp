@@ -1,49 +1,84 @@
 #include <iostream>
 #include "include\forward_list\forward_list.hpp"
 
+
 template <class Ty>
-class Queue
+class queue
 {
 	forward_list<Ty> _items;
 public:
-	Queue();
-	void Enqueue(const Ty& value);
-	Ty Dequeue();
+	queue();
+	~queue() {};
+	void enqueue(const Ty& value);
+	Ty dequeue();
 	size_t count();
-	void swap(Queue& other);
-	Queue& operator=(const Queue& other);
+	void show()
+	{
+		_items.show();
+	};
+	void swap(queue& other);
+	queue& operator=(const queue& other);
+	queue& operator=(queue&& other) = default;
+	queue (const queue& other) = default;
+	queue(queue&& other);
+	queue(std::initializer_list<Ty> list);
+	
 };
 
+
 template <class Ty>
-Queue<Ty>& Queue<Ty>:: operator=(const Queue<Ty>& other)
+queue<Ty>::queue(queue&& other)
 {
-	_items = other._items;
+	queue other_ = other;
+	while (!other_._items.empty())
+	{
+		
+		Ty _i = other_._items.pop_back();
+		_items.emplace_back(_i);
+	}
+	
 }
 
 template <class Ty>
-Queue<Ty>::Queue() {}
+queue<Ty>& queue<Ty>:: operator=(const queue<Ty>& other)
+{
+	_items = other._items;
+	return *this;
+}
+
+template <class Ty>
+queue<Ty>::queue() {}
+
+template <class Ty>
+queue<Ty>::queue(std::initializer_list<Ty> list)
+{
+	for (auto& item : list)
+	{
+		enqueue(item);
+	}
+}
 
 
 template <class Ty>
-void Queue<Ty>:: Enqueue(const Ty& value)
-	{
-		_items.push_front(value);
-	}
+void queue<Ty>::enqueue(const Ty& value)
+{
+	_items.push_front(value);
+}
 
 template <class Ty>
-Ty Queue<Ty>::Dequeue()
-	{
-		return _items.pop_back();
-	}
+Ty queue<Ty>::dequeue()
+{
+	return _items.pop_back();
+}
 
-template <class Ty> 
-size_t Queue<Ty>::count()
+template <class Ty>
+size_t queue<Ty>::count()
 {
 	return _items.count();
 }
 
 template <class Ty>
-void Queue<Ty>::swap(Queue& other)
+void queue<Ty>::swap(queue& other)
 {
 	_items.swap(other._items);
 }

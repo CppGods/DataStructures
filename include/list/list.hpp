@@ -1,7 +1,8 @@
 #include <iostream>
 
 template <class T>
-struct Node {
+struct Node 
+{
 	Node()
 	{
 		prev = nullptr;
@@ -20,12 +21,15 @@ template <class Ty>
 class list
 {
 private:
+
 	Node<Ty> *head, *tail;
 	size_t count_;
-
 public:
+
 	list();
 	list(const list& other);
+	list(std::initializer_list<Ty> list);
+	list(list&& other);
 	~list();
 	list& operator=(const list& other);
 	bool empty() const;
@@ -40,11 +44,10 @@ public:
 	void swap(list& other);
 	void clear();
 	void erase(size_t Index);
+	bool operator ==(const list& other);
 	Node<Ty>* begin();
 	Node<Ty>* end();
 };
-
-
 
 template <class Ty>
 list<Ty>::list()
@@ -197,6 +200,48 @@ void list<Ty>::erase(size_t Index)
 		}
 	count_--;
 }
+
+template<class Ty>
+bool list<Ty>::operator==(const list & other)
+{
+	Node<Ty> *node1 = new Node<Ty>;
+	Node<Ty> *node2 = new Node<Ty>;
+	node1 = head;
+	node2 = other.head;
+		while (node1 && node2)
+		{
+			if (node1->data == node2->data);
+			else return 0;
+			node2 = node2->next;
+			node1 = node1->next;
+		}
+		if ((!node1 && node2) || (node1 && !node2))
+			return 0;
+		return 1;
+}
+template<class Ty>
+list<Ty>::list(list && other)
+{
+	head = tail = nullptr;
+	count_ = 0;
+	Node<Ty> *temp = other.head;
+	while (temp != nullptr)
+	{
+		this->push_back(std::forward<Ty>(temp->data));
+		temp = temp->next;
+	}
+	count_ = other.count_;
+}
+template<class Ty>
+list<Ty>::list(std::initializer_list<Ty> init_list)
+{
+	head = tail= nullptr;
+	count_ = 0;
+	for (auto& val : init_list)
+	{
+		push_back(val);
+	}
+}
 template <class Ty>
 void list<Ty>::pop_front()
 {
@@ -225,9 +270,9 @@ void list<Ty>::pop_back()
 		tmp->next = nullptr;
 		--count_;
 	}
-	else 
+	else
 		clear();
-	
+
 }
 
 template< typename Ty >
@@ -252,3 +297,4 @@ Node<Ty>* list<Ty>::end()
 {
 	return tail;
 }
+

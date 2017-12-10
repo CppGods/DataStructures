@@ -36,3 +36,43 @@
 	+Частично реализован класс queue (NeverMore27)
 	+Частично реализован класс deque (SVolkoff)
 	+TL = SVolkoff
+	
+13.11.2017 - 20.11.2017 - TL:SVolkoff
+
+	+Частично реализован класс queue (NeverMore27)
+	+Частично реализован класс deque (SVolkoff)
+	+Произведены поправки в классе forward_list (NeverMore27)
+	+Произведены поправки в классе list (SVolkoff)
+	+Произведены поправки в классе queue (NeverMore27)
+	+Произведены поправки в классе deque (SVolkoff)
+	+Создан набор тестов для класса set (Spardoks)
+	
+20.11.2017 - 27.11.2017 - TL:SVolkoff
+
+	+Произведены поправки в классе forward_list (NeverMore27)
+	+Произведены поправки в классе list (SVolkoff)
+	+Произведены поправки в классе queue (NeverMore27)
+	+Произведены поправки в классе deque (SVolkoff)
+	+Произведены поправки в классе vector (Spardoks)
+	+Создан набор тестов для класса set (Spardoks)
+	+Создан набор тестов для класса bst_tree(Spardoks)
+	
+27.11.2017 - 04.12.2017 - TL:SVolkoff
+
+	+Реализованы основные методы и операторы класса hash_table (Spardoks)
+	+Добавлены методы в классы bst_tree и set (Spardoks)
+	+Начаты изучение и разработка avl_tree (NeverMore27)
+	+Начаты изучение и разработка heap (SVolkoff)
+	+Начаты изучение и разработка unordered_map (Spardoks)
+	+Начаты изучение и разработка rb_tree (NeverMore27)
+	+Начаты изучение и разработка priority_queue (SVolkoff)
+
+04.12.2017 - 11.12.2017 - TL:SVolkoff
+	+Реализованы основные методы и операторы классов unordered_set/unordered_map (Spardoks)
+	+Реализованы основные методы и операторы класса avl_tree (NeverMore27)
+	+Реализованы основные методы и операторы класса heap (SVolkoff)
+	+Произведены поправки в классе forward_list (NeverMore27)
+	+Произведены поправки в классе list (SVolkoff)
+	+Произведены поправки в классе queue (NeverMore27)
+	+Произведены поправки в классе deque (SVolkoff)
+	+Произведены поправки в классе hash_table (Spardoks)

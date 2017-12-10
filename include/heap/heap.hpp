@@ -10,6 +10,8 @@ private:
 public:
 	Heap();
 	Heap(const Heap& other);
+	Heap(Heap&& other);
+	Heap(std::initializer_list<T> init_list);
 	~Heap(); 
 	void push(T);
 	size_t getSize() const;
@@ -56,6 +58,27 @@ template <class T>
 Heap<T>::Heap(const Heap& other)
 {
 	list_ = other.list_;
+}
+
+template<class T>
+Heap<T>::Heap(Heap && other)
+{
+	Heap<T> other_ = other;
+	while (!other_.list_.empty())
+	{
+		T elem = other_.list_.pop_back();
+		list_.push_front(elem);
+	}
+}
+
+
+template<class T>
+Heap<T>::Heap(std::initializer_list<T> init_list)
+{
+	for (auto& val : init_list)
+	{
+		list_.push_back(val);
+	}
 }
 
 template<class T>

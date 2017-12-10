@@ -8,7 +8,7 @@ class Deque
 public:
 	Deque();
 	~Deque();
-	Deque(std::initializer_list<Type> list);
+	Deque(std::initializer_list<Type> init_list);
 	Deque(Deque&& other);
 	size_t size() const;
 	void swap(Deque& other);

@@ -2,38 +2,52 @@
 
 
 template <class Type>
-class Deque 
+class Deque
 {
-		list<Type> _data;
-	public:
-		Deque();
-		~Deque();
-		Deque(const Type& value);
-		size_t size();
-		void swap(Deque& other);
-		Deque& operator=(const Deque& other);
-		Type& operator[](size_t Index);
-		Type&	at(size_t Index);
-		Type& back() const;
-		Type& front() const;
-		bool empty() const;
-		void insert(size_t Index, const Type &val);
-		void clear();
-		void push_back(const Type &val);
-		void push_front(const Type &val);
-		void pop_back();
-		void pop_front();
-		void erase(size_t Index);
+	list<Type> _data;
+public:
+	Deque();
+	~Deque();
+	Deque(const Type& value);
+	Deque(std::initializer_list<Type> list);
+	Deque(Deque&& other);
+	size_t size() const;
+	void swap(Deque& other);
+	Deque& operator=(const Deque& other);
+	Type& operator[](size_t Index);
+	Type&	at(size_t Index);
+	Type& back() const;
+	Type& front() const;
+	bool empty() const;
+	void insert(size_t Index, const Type &val);
+	void clear();
+	void push_back(const Type &val);
+	void push_front(const Type &val);
+	void pop_back();
+	void pop_front();
+	void erase(size_t Index);
 };
 
 template<class Type>
 Deque<Type>::Deque()
 {
-	
+
 }
 
 template<class Type>
-size_t Deque<Type>::size()
+Deque<Type>::~Deque()
+{
+	_data.clear();
+}
+
+template<class Type>
+Deque<Type>::Deque(const Type & value)
+{
+	_data = other._data;
+}
+
+template<class Type>
+size_t Deque<Type>::size() const
 {
 	return _data.size();
 }
@@ -44,7 +58,7 @@ Deque<Type>& Deque<Type>:: operator=(const Deque<Type>& other)
 	_data = other._data;
 }
 template<class Type>
-Type & Deque<Type>::operator[](size_t Index) 
+Type & Deque<Type>::operator[](size_t Index)
 {
 	if (Index == 0)
 	{
@@ -60,7 +74,7 @@ Type & Deque<Type>::operator[](size_t Index)
 	return before->data;
 }
 template<class Type>
-Type & Deque<Type>::at(size_t Index) 
+Type & Deque<Type>::at(size_t Index)
 {
 	if (Index == 0)
 	{
@@ -131,15 +145,21 @@ void Deque<Type>::swap(Deque & other)
 {
 	_data.swap(other._data);
 }
-
 template<class Type>
-Deque<Type>::~Deque()
+Deque<Type>::Deque(Deque && other)
 {
-	_data.clear();
+	Deque<Type> other_ = other;
+	while (!other_._data.empty())
+	{
+		Type elem = other_._data.pop_back();
+		_data.push_front(elem);
+	}
 }
-
 template<class Type>
-Deque<Type>::Deque(const Type & value)
+Deque<Type>::Deque(std::initializer_list<Type> init_list)
 {
-	_data = other._data;
+	for (auto& val : init_list)
+	{
+		_data.push_back(val);
+	}
 }

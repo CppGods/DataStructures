@@ -46,8 +46,6 @@ Heap<T>& Heap<T>::operator=(const Heap<T> & other)
 	list_ = other.list_;
 }
 
-
-
 template<class T>
 void Heap<T>::swap(Heap& other)
 {
@@ -71,7 +69,6 @@ Heap<T>::Heap(Heap && other)
 	}
 }
 
-
 template<class T>
 Heap<T>::Heap(std::initializer_list<T> init_list)
 {
@@ -84,6 +81,7 @@ Heap<T>::Heap(std::initializer_list<T> init_list)
 template<class T>
 Heap<T>::~Heap()
 {
+	
 }
 
 template <class T>
@@ -108,7 +106,6 @@ void Heap<T> ::push(T value)
 		child = parent;
 		parent = ((child % 2 == 0) ? ((child / 2) - 1) : (child / 2));
 	}
-	
 }
 
 template <class T>
@@ -140,7 +137,6 @@ void Heap<T> ::pop()
 		else
 			f = 0;
 	}
-	
 }
 template<class T>
 T Heap<T>::top() const

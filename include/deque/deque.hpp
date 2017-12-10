@@ -8,7 +8,6 @@ class Deque
 public:
 	Deque();
 	~Deque();
-	Deque(const Type& value);
 	Deque(std::initializer_list<Type> list);
 	Deque(Deque&& other);
 	size_t size() const;
@@ -38,12 +37,6 @@ template<class Type>
 Deque<Type>::~Deque()
 {
 	_data.clear();
-}
-
-template<class Type>
-Deque<Type>::Deque(const Type & value)
-{
-	_data = other._data;
 }
 
 template<class Type>

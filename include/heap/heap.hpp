@@ -5,21 +5,19 @@ class Heap
 {
 private:
 	Deque<T> list_;
-	void Up();
-	void Down();
 	void swapcp(size_t child, size_t parent);
-	size_t getLeftChild(size_t parent);
-	size_t getRightChild(size_t parent);
-	size_t getParent(size_t child);
+
 public:
 	Heap();
+	Heap(const Heap& other);
+	~Heap(); 
 	void push(T);
-	size_t getSize();
+	size_t getSize() const;
+	bool empty() const;
 	Heap& operator=(const Heap& other);
-	T top();
+	T top() const;
 	void pop();
 	void swap(Heap& other);
-	Heap(Heap& other);
 };
 
 template <class T>
@@ -29,9 +27,15 @@ Heap<T>::Heap()
 }
 
 template <class T>
-size_t Heap<T> ::getSize()
+size_t Heap<T> ::getSize() const
 {
 	return list_.size();
+}
+
+template<class T>
+bool Heap<T>::empty() const
+{
+	return list_.empty();
 }
 
 template<class T>
@@ -49,9 +53,14 @@ void Heap<T>::swap(Heap& other)
 }
 
 template <class T>
-Heap<T>::Heap(Heap& other)
+Heap<T>::Heap(const Heap& other)
 {
 	list_ = other.list_;
+}
+
+template<class T>
+Heap<T>::~Heap()
+{
 }
 
 template <class T>
@@ -64,49 +73,20 @@ void Heap<T>::swapcp(size_t child, size_t parent)
 }
 
 template <class T>
-size_t Heap<T> ::getParent(size_t child)
-{
-	if (child % 2 == 0)
-		return (child / 2) - 1;
-	else
-		return child / 2;
-
-}
-
-template <class T>
-size_t Heap<T> ::getLeftChild(size_t parent)
-{
-	return (2 * parent + 1);
-}
-
-template <class T>
-size_t Heap<T> ::getRightChild(size_t parent)
-{
-	return (2 * parent + 2);
-}
-
-template <class T>
 void Heap<T> ::push(T value)
 {
 	list_.push_back(value);
-	Up();
-}
-
-template <class T>
-void Heap <T>::Up() 
-{
 	size_t child = list_.size() - 1;
 	int parent;
-	parent = getParent(child);
-	while (list_[child] > list_[parent] && child >= 0 && parent >= 0) 
+	parent = ((child % 2 == 0)?((child / 2) - 1): (child / 2));
+	while (list_[child] > list_[parent] && child >= 0 && parent >= 0)
 	{
 		swapcp(child, parent);
 		child = parent;
-		parent = getParent(child);
+		parent = ((child % 2 == 0) ? ((child / 2) - 1) : (child / 2));
 	}
-
+	
 }
-
 
 template <class T>
 void Heap<T> ::pop() 
@@ -114,27 +94,12 @@ void Heap<T> ::pop()
 	size_t child = list_.size() - 1;
 	swapcp(child, 0);
 	list_.pop_back();
-	Down();
-	
-}
-
-template<class T>
-T Heap<T>::top()
-{
-	T value = list_.front();
-	return value;
-}
-
-
-template <class T>
-void Heap<T> ::Down() 
-{
 	size_t parent = 0;
-	bool f=1;
-	while (f) 
+	bool f = 1;
+	while (f)
 	{
-		size_t left = getLeftChild(parent);
-		size_t right = getRightChild(parent);
+		size_t left = (2 * parent + 1);
+		size_t right =(2 * parent + 2);
 		size_t length = list_.size();
 		size_t largest = parent;
 
@@ -150,7 +115,13 @@ void Heap<T> ::Down()
 			parent = largest;
 		}
 		else
-			f=0;
+			f = 0;
 	}
-
+	
+}
+template<class T>
+T Heap<T>::top() const
+{
+	T value = list_.front();
+	return value;
 }

@@ -1,7 +1,6 @@
-#include <iostream>
 
 template <class T>
-struct Node 
+struct Node
 {
 	Node()
 	{
@@ -28,7 +27,7 @@ public:
 
 	list();
 	list(const list& other);
-	list(std::initializer_list<Ty> list);
+	list(std::initializer_list<Ty> init_list);
 	list(list&& other);
 	~list();
 	list& operator=(const list& other);
@@ -208,17 +207,18 @@ bool list<Ty>::operator==(const list & other)
 	Node<Ty> *node2 = new Node<Ty>;
 	node1 = head;
 	node2 = other.head;
-		while (node1 && node2)
-		{
-			if (node1->data == node2->data);
-			else return 0;
-			node2 = node2->next;
-			node1 = node1->next;
-		}
-		if ((!node1 && node2) || (node1 && !node2))
-			return 0;
-		return 1;
+	while (node1 && node2)
+	{
+		if (node1->data == node2->data);
+		else return 0;
+		node2 = node2->next;
+		node1 = node1->next;
+	}
+	if ((!node1 && node2) || (node1 && !node2))
+		return 0;
+	return 1;
 }
+
 template<class Ty>
 list<Ty>::list(list && other)
 {
@@ -235,7 +235,7 @@ list<Ty>::list(list && other)
 template<class Ty>
 list<Ty>::list(std::initializer_list<Ty> init_list)
 {
-	head = tail= nullptr;
+	head = tail = nullptr;
 	count_ = 0;
 	for (auto& val : init_list)
 	{
@@ -297,4 +297,3 @@ Node<Ty>* list<Ty>::end()
 {
 	return tail;
 }
-

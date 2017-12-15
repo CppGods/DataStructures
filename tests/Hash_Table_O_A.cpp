@@ -13,7 +13,7 @@ SCENARIO("Hash_Table_O_A insert") {
 
 	Hash_Table_O_A<int> ht1;
 	REQUIRE(ht1.find(1) == false);
-	ht1.insert(1);
+	ht1.emplace(1);
 	REQUIRE(1 == ht1.size());
 	REQUIRE(ht1.find(1) == true);
 

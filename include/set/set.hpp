@@ -1,3 +1,6 @@
+#ifndef SET_HPP
+#define SET_HPP
+
 #include "include\bst_tree\bst_tree.hpp"
 #include <vector>
 #include <utility>
@@ -143,6 +146,7 @@ public:
 	bool operator==(set const & other) const;
 	bool operator>=(set const & other) const;
 	bool operator<=(set const & other) const;
+	bool operator!=(set const & other) const;
 
 private:
 
@@ -300,6 +304,14 @@ bool set<Key, Compare>::operator<(set<Key, Compare> const & other) const {
 }
 
 template<class Key, class Compare = std::less<Key>>
+bool set<Key, Compare>::operator!=(set<Key, Compare> const & other) const {
+
+	return !(*this == other);
+}
+
+////private
+
+template<class Key, class Compare = std::less<Key>>
 std::vector<const Key *> set<Key, Compare>::vector_keys_ref() const {
 
 	std::vector<const Key *> vector;
@@ -331,3 +343,5 @@ void set<Key, Compare>::get_key(std::vector<const Key *> & vector, node<Key> con
 	}
 
 }
+
+#endif //!SET_HPP

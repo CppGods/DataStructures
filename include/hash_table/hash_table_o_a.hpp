@@ -40,6 +40,11 @@ public:
 	bool empty() const;
 	std::size_t size() const;
 
+	template <class Args>
+	void emplace(Args && args);
+
+	std::vector<ValueType const *> get_vals_ref_vector() const;
+
 private:
 
 	Hash Hasher_;
@@ -53,6 +58,7 @@ private:
 	void rehash();
 	bool need_rehash();
 	bool ins(ValueType const & val, std::vector<Element> & v);
+
 	Element * fnd(ValueType const & val) {
 
 		if (count_ == 0) {
@@ -268,6 +274,40 @@ erase(ValueType const & val) {
 		--count_;
 	}
 }
+
+template<
+	class ValueType,
+	class Hash = std::hash<ValueType>,
+	class ValEqual = std::equal_to<ValueType>
+>
+template <class Args>
+void
+Hash_Table_O_A<ValueType, Hash, ValEqual>::
+emplace(Args && args) {
+
+	ValueType obj(args);
+	insert(obj);
+}
+
+template<
+	class ValueType,
+	class Hash = std::hash<ValueType>,
+	class ValEqual = std::equal_to<ValueType>
+>
+std::vector<ValueType const *>
+Hash_Table_O_A<ValueType, Hash, ValEqual>::
+get_vals_ref_vector() const {
+
+	std::vector<ValueType const * > v_ref;
+	for (std::size_t i = 0; i < capacity_; ++i) {
+		if (!HashArr_[i].is_empty_) {
+			v_ref.push_back(&HashArr_[i].data_);
+		}
+	}
+	return v_ref;
+}
+
+////private
 
 template<
 	class ValueType,

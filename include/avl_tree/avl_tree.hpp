@@ -147,6 +147,7 @@ avl_tree<Ty, T, Compare>::avl_tree(std::initializer_list<std::pair<Ty,T>> list)
 	{
 		insert(item.first, item.second);
 	}
+	comp_ = new Compare();
 
 };
 

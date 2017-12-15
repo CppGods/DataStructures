@@ -74,7 +74,8 @@
 	//Вставка, вызываемая публичным методом insert
 	node<Ty, T> * insert(node<Ty, T>*, const Ty&, const T&);
 
-	//Удаление, вызываемое публичным методом remove
+	//Удаление, вызываемое публичным методом remove и вспомогательные ему методы 
+	//для поиска и удаления минимального элемента
 	node<Ty, T> * findmin(node<Ty, T> *);
 	node<Ty, T> * removemin(node<Ty, T> *);
 	node<Ty, T> *  remove(node<Ty, T>*, const Ty&);

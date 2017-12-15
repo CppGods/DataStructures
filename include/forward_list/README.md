@@ -35,29 +35,35 @@ class forward_list
 	
 	forward_list(const forward_list& other); //Конструктор копирования
 	
+	forward_list(forward_list&& other); //Конструктор переноса
+	
+	forward_list(std::initializer_list<Ty> list); //Конструктор с использованием листа инициализации
+	
 	~forward_list(); //Деструктор
 	
 	void clear(); //Функция очистки списка
 	
-	//Далее представлены 4 функции для вставки элемента в начало и конец списка
-	void emplace_back(const Ty& val);
+	void push_back(const Ty& val); //вставка в конец списка
 	
-	void emplace_front(const Ty &val);
+	void push_front(const Ty &val); //вставка в начало списка
 	
-	void emplace_back(const Ty&& val);
+	template<typename Args>
+	void emplace_back(Args&& val); //Прямой перенос в конец списка
 	
-	void emplace_front(const Ty &&val); 
+	template<typename Args>
+	void emplace_front(Args &&val) //Прямой перенос в начало списка
 	
 	void pop_back(); //Удаление последнего элемента списка
 	
 	void pop_front(); //Удаление первого элемента списка
 	
 	size_t count() const; //Возвращает значение переменной count_
-*Приватные:*
 
 	void swap(forward_list& other); //Меняет местами два списка
 
 ## Operators
+	bool operator ==(const forward_list& other); //Оператор равенства
+	forward_list& operator=(forward_list&& other); //Оператор переноса
 	forward_list& operator=(const forward_list& other); //Операор копирующего присваивания
 
 ## OTHER

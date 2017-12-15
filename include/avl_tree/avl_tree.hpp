@@ -239,7 +239,7 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::search(const T& k) const
 	node<Ty, T> * tr = root;
 	while (tr != nullptr)
 	{
-		if ((!(*comp_)(tr->key, k)) && (!(*comp_)(tr->key, k)))
+		if ((!(*comp_)(tr->key, k)) && (!(*comp_)(k, tr->key)))
 			break;
 		else
 		{

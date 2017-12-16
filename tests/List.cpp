@@ -13,7 +13,7 @@ SCENARIO("list init")
     REQUIRE(l1.back() == 4);
 }
 
-SCENARIO("list push, pop, operator= ") 
+SCENARIO("list push, pop") 
 {
     list<int> b;
 	REQUIRE(b.size() == 0);
@@ -41,5 +41,25 @@ SCENARIO("list push, pop, operator= ")
 	a.pop_back();
 	REQUIRE(a.size() == 2);
 	REQUIRE(a.back() == 7);
+}
 
+
+SCENARIO("list operator=, operator==") 
+{
+	list<int> a{ 3,6,7,4,8 };
+	list<int> b;
+	b = a;
+	REQUIRE(b == a);
+	a.pop_back();
+	REQUIRE(!(b == a));
+	REQUIRE(b.size() == 5);
+	REQUIRE(b.back() == 8);
+	b.pop_back();
+	REQUIRE(b.back() == 4);
+	b.pop_back();
+	REQUIRE(b.back() == 7);
+	b.pop_back();
+	REQUIRE(b.back() == 6);
+	b.pop_back();
+	REQUIRE(b.back() == 3);
 }

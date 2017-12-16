@@ -72,7 +72,7 @@ public:
 
 /////copy////
 
-template<typename Ty, typename T, class Compare = std::less<Ty>>
+template<typename Ty, typename T, class Compare >
 void avl_tree<Ty, T, Compare>::create_node(node<Ty, T> *& cur, Ty const & k, T const & value_) 
 {
 	cur = new node<Ty>();
@@ -83,7 +83,7 @@ void avl_tree<Ty, T, Compare>::create_node(node<Ty, T> *& cur, Ty const & k, T c
 	++count_;
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void avl_tree<Ty, T, Compare>::copy_nodes(node<Ty, T> *& dest, node<Ty, T> const * src)
 {
 
@@ -101,13 +101,13 @@ void avl_tree<Ty, T, Compare>::copy_nodes(node<Ty, T> *& dest, node<Ty, T> const
 
 
 /////constr///
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 avl_tree<Ty, T, Compare>::avl_tree() : count_{ 0 }, root{ nullptr }
 {
 	comp_ = new Compare();
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void avl_tree<Ty, T, Compare>::swap(avl_tree<Ty, T, Compare> & other)
 {
 	std::swap(root, other.root);
@@ -115,7 +115,7 @@ void avl_tree<Ty, T, Compare>::swap(avl_tree<Ty, T, Compare> & other)
 	std::swap(comp_, other.comp_);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 avl_tree<Ty, T, Compare>::avl_tree(avl_tree<Ty, T, Compare>  && tmp) : count_{ 0 }
 {
 	root = nullptr;
@@ -124,7 +124,7 @@ avl_tree<Ty, T, Compare>::avl_tree(avl_tree<Ty, T, Compare>  && tmp) : count_{ 0
 
 
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 avl_tree<Ty, T, Compare>::avl_tree(avl_tree<Ty, T, Compare> const & other) : count_{ 0 }
 {
 	if (other.count_ == 0) {
@@ -138,7 +138,7 @@ avl_tree<Ty, T, Compare>::avl_tree(avl_tree<Ty, T, Compare> const & other) : cou
 
 /////
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 avl_tree<Ty, T, Compare>::avl_tree(std::initializer_list<std::pair<Ty,T>> list)
 {
 	root = nullptr;
@@ -156,13 +156,13 @@ avl_tree<Ty, T, Compare>::avl_tree(std::initializer_list<std::pair<Ty,T>> list)
 
 
 ///////clean////////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 avl_tree<Ty, T, Compare>::~avl_tree()
 {
 	clean(root);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void avl_tree<Ty, T, Compare>::clean(node<Ty, T> *Node)
 {
 	if (Node == nullptr) return;
@@ -171,7 +171,7 @@ void avl_tree<Ty, T, Compare>::clean(node<Ty, T> *Node)
 	DelNode(Node);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void avl_tree<Ty, T, Compare>::DelNode(node<Ty,T> *Node)
 {
 	--count_;
@@ -179,7 +179,7 @@ void avl_tree<Ty, T, Compare>::DelNode(node<Ty,T> *Node)
 };
 
 /////////////balanced////////////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T> * avl_tree<Ty, T, Compare>::balance(node<Ty, T> * Node)
 {
 	fixheight(Node);
@@ -199,19 +199,19 @@ node<Ty, T> * avl_tree<Ty, T, Compare>::balance(node<Ty, T> * Node)
 };
 
 ////height helping//////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 size_t avl_tree<Ty, T, Compare>::height(node<Ty, T>* Node)
 {
 	return Node ? Node->height : 0;
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 int avl_tree<Ty, T, Compare>::balance_factor(node<Ty, T>* Node)
 {
 	return height(Node->right) - height(Node->left);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void avl_tree<Ty, T, Compare>::fixheight(node<Ty, T>* Node)
 {
 	size_t hleft = height(Node->left);
@@ -221,19 +221,19 @@ void avl_tree<Ty, T, Compare>::fixheight(node<Ty, T>* Node)
 
 
 /////////equal////////////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 bool avl_tree<Ty, T, Compare>::isEqual(node<Ty, T>* root2, const node<Ty, T>* root1)
 {
 	return (root2&&root1 ? root2->key == root1->key&& root2->value == root1->value&&isEqual(root2->left, root1->left) && isEqual(root2->right, root1->right) : !root2 && !root1);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 bool avl_tree<Ty, T, Compare>:: operator ==(const avl_tree& other)
 {
 	return isEqual(root, other.root);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>* avl_tree<Ty, T, Compare>::search(const T& k) const
 {
 	node<Ty, T> * tr = root;
@@ -253,7 +253,7 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::search(const T& k) const
 
 
 //////rotates/////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>* avl_tree<Ty, T, Compare>::rotateright(node<Ty, T>* p)
 {
 	node<Ty, T>* q = p->left;
@@ -264,7 +264,7 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::rotateright(node<Ty, T>* p)
 	return q;
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>* avl_tree<Ty, T, Compare>::rotateleft(node<Ty, T>* q)
 {
 	node<Ty, T>* p = q->right;
@@ -276,7 +276,7 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::rotateleft(node<Ty, T>* q)
 };
 
 /////////////insert////////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>* avl_tree<Ty, T, Compare>::insert(node<Ty, T>* Node, const Ty &k, const T &value_)
 {
 	if (Node == NULL)
@@ -303,7 +303,7 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::insert(node<Ty, T>* Node, const Ty &k, co
 	return Node;
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void  avl_tree<Ty, T, Compare>::insert(const Ty &k, const T &value)
 {
 	root = insert(root, k, value);
@@ -312,13 +312,13 @@ void  avl_tree<Ty, T, Compare>::insert(const Ty &k, const T &value)
 
 
 //////////min//////////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>*  avl_tree<Ty, T, Compare>::findmin(node<Ty, T>* Node)
 {
 	return Node->left ? findmin(Node->left) : Node;
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>*  avl_tree<Ty, T, Compare>::removemin(node<Ty, T>* Node)
 {
 	if (Node->left == nullptr)
@@ -330,7 +330,7 @@ node<Ty, T>*  avl_tree<Ty, T, Compare>::removemin(node<Ty, T>* Node)
 };
 
 ///////////remove/////////
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 node<Ty, T>*  avl_tree<Ty, T, Compare>::remove(node<Ty, T>* Node, const Ty &k)
 {
 	if (!Node) return nullptr;
@@ -352,7 +352,7 @@ node<Ty, T>*  avl_tree<Ty, T, Compare>::remove(node<Ty, T>* Node, const Ty &k)
 	return balance(Node);
 };
 
-template<class Ty, class T, class Compare = std::less<Ty>>
+template<class Ty, class T, class Compare>
 void  avl_tree<Ty, T, Compare>::remove(const Ty &k)
 {
 	root = remove(root, k);

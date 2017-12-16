@@ -8,8 +8,8 @@ SCENARIO("array init")
 	REQUIRE(v1.empty() == false);
 	REQUIRE(v1[0]==0);
 	array<int, 0> v2;
-	REQUIRE(v1.size() == 0);
-	REQUIRE(v1.empty() == true);
+	REQUIRE(v2.size() == 0);
+	REQUIRE(v2.empty() == true);
 	array<int, 5> v3{1,5,7,23};
 	array<int, 5> v4(v3);
 	REQUIRE(v3[0]==v4[0]);
@@ -51,7 +51,7 @@ SCENARIO("array at, back, front, data, operator[]")
 	REQUIRE(v3[3]==v4[3]);
 	REQUIRE(v3[3]==23);
 	REQUIRE(v3[4]==v4[4]);
-  REQUIRE(v3[4]==71);
+  	REQUIRE(v3[4]==71);
 	array<int, 5> v5={1,2,3,4,5};
 	v5.swap(v3);
 	REQUIRE(v3[0]==1);

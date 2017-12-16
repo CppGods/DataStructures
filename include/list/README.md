@@ -23,11 +23,7 @@ http://ru.cppreference.com/w/cpp/container/list
 	node *head;  	 //Указатель на начало списка
 
 	size_t count;  	 //Количество элементов в списке
-
-
 ## Methods
-public:
-
 	list();   //Конструктор без параметров
 	list(const list& other);   //Конструктор копирования
 	~list();     //Деструктор

@@ -104,7 +104,7 @@ T* array<T, N>::data()
 template<typename T, std::size_t N>
 void array<T, N>::swap(array& other)
 {
-	std::swap_ranges(begin(), end(), other.begin());
+	std::swap_ranges(begin(), end()+1, other.begin());
 }
 
 template<typename T, std::size_t N>

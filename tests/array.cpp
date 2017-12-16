@@ -1,20 +1,6 @@
 #include <catch.hpp>
 #include <array.hpp>
 
-
-SCENARIO("array init") 
-{
-	array<int, 13> v1;
-	REQUIRE(v1.size() == 13);
-	REQUIRE(v1.empty() == false);
-	array<int, 0> v2;
-	REQUIRE(v1.size() == 0);
-	REQUIRE(v1.empty() == true);
-}
-
-#include <test.hpp>
-#include <catch.hpp>
-
 SCENARIO("array init") 
 {
 	array<int, 13> v1;

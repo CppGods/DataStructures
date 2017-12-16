@@ -56,7 +56,7 @@ private:
     std::vector<Element> HashArr_;
 
 	void rehash();
-	bool need_rehash();
+	bool need_rehash() const;
 	bool ins(ValueType const & val, std::vector<Element> & v);
 
 	Element * fnd(ValueType const & val) {
@@ -362,7 +362,7 @@ template<
 >
 bool
 Hash_Table_O_A<ValueType, Hash, ValEqual>::
-need_rehash() {
+need_rehash() const  {
 
 	return ((count_ * 1.0) / capacity_ >= load_factor_);
 }

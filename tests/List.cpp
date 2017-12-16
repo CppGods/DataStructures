@@ -7,9 +7,39 @@ SCENARIO("list init")
     REQUIRE(l.size() == 0);
     REQUIRE(l.empty());
     list<int> l1{1,2,3,4};
-    REQUIRE(l.front()==1);
-    REQUIRE(l.front()->next==2);
-    REQUIRE(l.back()==4);
-    REQUIRE(l.back()->prev==3);
+    REQUIRE(l1.front()==1);
+    REQUIRE(l1.begin()->next->data == 2);
+    REQUIRE(l1.end()->prev->data == 3);
+    REQUIRE(l1.back() == 4);
 }
 
+SCENARIO("list push, pop, operator= ") 
+{
+    list<int> b;
+	REQUIRE(b.size() == 0);
+	b.push_front(4);
+	REQUIRE(b.front() == 4);
+	REQUIRE(b.size() == 1);
+	b.push_back(5);
+	REQUIRE(b.size() == 2);
+	REQUIRE(b.back() == 5);
+	b.push_back(6);
+	REQUIRE(b.size() == 3);
+	REQUIRE(b.back() == 6);
+	b.push_front(7);
+	std::cout << (b.size() == 4);
+	std::cout << (b.front() == 7);
+	list<int> a{ 3,6,7,4,8 };
+	REQUIRE(a.size() == 5);
+	REQUIRE(a.back() == 8);
+	a.pop_back();
+	REQUIRE(a.size() == 4);
+	REQUIRE(a.back() == 4);
+	a.pop_front();
+	REQUIRE(a.size() == 3);
+	REQUIRE(a.front() == 6);
+	a.pop_back();
+	REQUIRE(a.size() == 2);
+	REQUIRE(a.back() == 7);
+
+}

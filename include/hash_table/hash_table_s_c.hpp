@@ -299,13 +299,12 @@ Hash_Table_S_C<Key, Val, Hash, KeyEqual>::
 get_pairs_ref_vector() const {
 
 	std::vector<std::pair<Key, Val> const *> v_ref;
-	v_ref.assign(count_);
 	std::size_t count = 0;
-	for (std::size_t i = 0; i < capacity_) {
+	for (std::size_t i = 0; i < capacity_; ++i) {
 		std::size_t len_chain = HashArr_[i].size();
 		for (std::size_t j = 0; j < len_chain; ++j) {
 			if (!(HashArr_[i][j].is_empty_)) {
-				v_ref[count] = &HashArr_[i][j].data_;
+				v_ref.push_back(&HashArr_[i][j].data_);
 				++count;
 			}
 			if (count == count_) {

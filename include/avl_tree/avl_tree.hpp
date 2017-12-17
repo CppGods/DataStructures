@@ -1,7 +1,5 @@
 #include <iostream>
 #include <utility>
-
-
 template<typename Ty, typename T>
 struct node
 {
@@ -9,8 +7,8 @@ struct node
 	Ty key;
 	T value;
 	size_t height;
-	node<Ty, T>() : left{ nullptr }, right{ nullptr },  height{ 0 } {};
-	node<Ty, T>(Ty && data, T && value_) : left{ nullptr }, value{value_}, right { nullptr },  key{ std::move(data) }, height{ 1 } {};
+	node<Ty, T>() : left{ nullptr }, right{ nullptr }, height{ 0 } {};
+	node<Ty, T>(Ty && data, T && value_) : left{ nullptr }, value{ value_ }, right{ nullptr }, key{ std::move(data) }, height{ 1 } {};
 	node<Ty, T>(Ty const &data, T const &value_) : left{ nullptr }, value{ value_ }, right{ nullptr }, key{ data }, height{ 1 } {};
 };
 
@@ -45,7 +43,7 @@ private:
 	node<Ty, T> * balance(node<Ty, T> *);
 
 	///////////ins///////////
-	node<Ty, T> * insert(node<Ty, T>*, const Ty&, const T&);
+	node<Ty, T> * insert(node<Ty, T>*, const T&, const Ty&);
 
 	//////////remove
 	node<Ty, T> * findmin(node<Ty, T> *);
@@ -56,26 +54,26 @@ private:
 	bool isEqual(node<Ty, T>* root2, const node<Ty, T>* root1);
 	////for constr///
 	void swap(avl_tree<Ty, T, Compare> & other);
-
+	
 public:
 	avl_tree();
 	avl_tree(std::initializer_list<std::pair<Ty, T>> list);
 	avl_tree(avl_tree<Ty, T, Compare> const &);
 	avl_tree(avl_tree<Ty, T, Compare> &&);
 	~avl_tree();
-	void insert(const Ty&, const T&);
+	void insert(const T&, const Ty&);
 	void remove(const Ty&);
 	node<Ty, T> * search(const T&) const;
 	bool operator ==(const avl_tree& other);
-	
+	bool isEmpty();
 };
 
 /////copy////
 
 template<typename Ty, typename T, class Compare >
-void avl_tree<Ty, T, Compare>::create_node(node<Ty, T> *& cur, Ty const & k, T const & value_) 
+void avl_tree<Ty, T, Compare>::create_node(node<Ty, T> *& cur, Ty const & k, T const & value_)
 {
-	cur = new node<Ty>();
+	cur = new node<Ty, T>();
 	cur->key = k;
 	cur->value = value_;
 	cur->left = nullptr;
@@ -87,7 +85,7 @@ template<class Ty, class T, class Compare>
 void avl_tree<Ty, T, Compare>::copy_nodes(node<Ty, T> *& dest, node<Ty, T> const * src)
 {
 
-	if (src != nullptr) 
+	if (src != nullptr)
 	{
 		create_node(dest, src->key, src->value);
 		copy_nodes(dest->left, src->left);
@@ -139,7 +137,7 @@ avl_tree<Ty, T, Compare>::avl_tree(avl_tree<Ty, T, Compare> const & other) : cou
 /////
 
 template<class Ty, class T, class Compare>
-avl_tree<Ty, T, Compare>::avl_tree(std::initializer_list<std::pair<Ty,T>> list)
+avl_tree<Ty, T, Compare>::avl_tree(std::initializer_list<std::pair<Ty, T>> list)
 {
 	root = nullptr;
 	count_ = 0;
@@ -172,7 +170,7 @@ void avl_tree<Ty, T, Compare>::clean(node<Ty, T> *Node)
 };
 
 template<class Ty, class T, class Compare>
-void avl_tree<Ty, T, Compare>::DelNode(node<Ty,T> *Node)
+void avl_tree<Ty, T, Compare>::DelNode(node<Ty, T> *Node)
 {
 	--count_;
 	delete Node;
@@ -228,6 +226,13 @@ bool avl_tree<Ty, T, Compare>::isEqual(node<Ty, T>* root2, const node<Ty, T>* ro
 };
 
 template<class Ty, class T, class Compare>
+bool avl_tree<Ty, T, Compare>::isEmpty()
+{
+	node <Ty, T>* root1 = nullptr;
+	return isEqual(root, root1);
+};
+
+template<class Ty, class T, class Compare>
 bool avl_tree<Ty, T, Compare>:: operator ==(const avl_tree& other)
 {
 	return isEqual(root, other.root);
@@ -277,7 +282,7 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::rotateleft(node<Ty, T>* q)
 
 /////////////insert////////
 template<class Ty, class T, class Compare>
-node<Ty, T>* avl_tree<Ty, T, Compare>::insert(node<Ty, T>* Node, const Ty &k, const T &value_)
+node<Ty, T>* avl_tree<Ty, T, Compare>::insert(node<Ty, T>* Node, const T &value_, const Ty &k)
 {
 	if (Node == NULL)
 	{
@@ -292,21 +297,21 @@ node<Ty, T>* avl_tree<Ty, T, Compare>::insert(node<Ty, T>* Node, const Ty &k, co
 	}
 	else if ((*comp_)(k, Node->key))
 	{
-		Node->left = insert(Node->left, k, value_);
+		Node->left = insert(Node->left, value_, k);
 		Node = balance(Node);
 	}
-	else if (((*comp_)(Node->key, k)) || ((!(*comp_)(k, Node->key)) && (!(*comp_)(Node->key, k))))
+	else if (((*comp_)(Node->key, k)) ) 
 	{
-		Node->right = insert(Node->right, k, value_);
+		Node->right = insert(Node->right,  value_, k);
 		Node = balance(Node);
 	}
 	return Node;
 };
 
 template<class Ty, class T, class Compare>
-void  avl_tree<Ty, T, Compare>::insert(const Ty &k, const T &value)
+void  avl_tree<Ty, T, Compare>::insert(const T &value, const Ty& k)
 {
-	root = insert(root, k, value);
+	root = insert(root, value, k);
 	++count_;
 };
 

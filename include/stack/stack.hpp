@@ -1,4 +1,3 @@
-
 #include <iostream>
 
 template <class Ty>
@@ -20,10 +19,41 @@ private:
 	size_t array_size_;
 	size_t count_;
 };
+
+
+
+template <typename Ty>
+void stack<Ty>::push(const Ty &value)
+{
+	
+	if (array_size_ == count_)
+	{
+		size_t array_size = array_size_ == 0 ? 1 : array_size_ * 2;
+		Ty *ptr = new Ty [array_size_];
+		try 
+		{
+			std::copy(array_, array_ + count_, ptr);
+		}
+		catch (...)
+		{  
+      			delete[] ptr;
+			throw;
+		}
+		
+		array_size_=array_size;
+		delete[] array_;
+		array_ = ptr;
+	}
+	
+	array_[count_] = value;
+	++count_;
+}
+
+
 template <class Ty>
 Ty& stack<Ty>:: top() const
 {
-	return array_[count-1];
+	return array_[count_-1];
 }
 
 template <class Ty>
@@ -67,4 +97,3 @@ size_t stack<Ty>::size() const noexcept
 {
 	return count_;
 }
-

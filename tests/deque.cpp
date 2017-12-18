@@ -1,4 +1,4 @@
-#include <catch.hpp>
+#include "catch.hpp"
 #include <deque.hpp>
 
 SCENARIO("deque init")

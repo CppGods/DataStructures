@@ -1,6 +1,5 @@
 #include"include\list\list.hpp"
 
-
 template <class Type>
 class Deque
 {
@@ -10,11 +9,12 @@ public:
 	~Deque();
 	Deque(std::initializer_list<Type> init_list);
 	Deque(Deque&& other);
+	Deque(Deque& other);
 	size_t size() const;
 	void swap(Deque& other);
 	Deque& operator=(const Deque& other);
 	Type& operator[](size_t Index);
-	Type&	at(size_t Index);
+	Type& at(size_t Index);
 	Type& back() const;
 	Type& front() const;
 	bool empty() const;
@@ -147,6 +147,11 @@ Deque<Type>::Deque(Deque && other)
 		Type elem = other_._data.pop_back();
 		_data.push_front(elem);
 	}
+}
+template<class Type>
+Deque<Type>::Deque(Deque & other)
+{
+	_data = other._data;
 }
 template<class Type>
 Deque<Type>::Deque(std::initializer_list<Type> init_list)

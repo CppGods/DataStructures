@@ -1,4 +1,4 @@
-#include <catch.hpp>
+#include "catch.hpp"
 #include <list.hpp>
 
 SCENARIO("list init") 
@@ -27,8 +27,8 @@ SCENARIO("list push, pop")
 	REQUIRE(b.size() == 3);
 	REQUIRE(b.back() == 6);
 	b.push_front(7);
-	std::cout << (b.size() == 4);
-	std::cout << (b.front() == 7);
+	REQUIRE(b.size() == 4);
+	REQUIRE(b.front() == 7);
 	list<int> a{ 3,6,7,4,8 };
 	REQUIRE(a.size() == 5);
 	REQUIRE(a.back() == 8);

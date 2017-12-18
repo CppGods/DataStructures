@@ -1,4 +1,5 @@
-
+#ifndef LIST_HPP
+#define LIST_HPP
 template <class T>
 struct Node
 {
@@ -297,3 +298,4 @@ Node<Ty>* list<Ty>::end()
 {
 	return tail;
 }
+#endif 

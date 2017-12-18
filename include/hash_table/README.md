@@ -4,8 +4,8 @@ Class Hash_Table_O_A - это структура данных, представ�
 
 template<
 	class ValueType,
-	class Hash = std::hash<ValueType>,
-	class ValEqual = std::equal_to<ValueType>
+	class Hash,
+	class ValEqual
 > class Hash_Table_O_A
 
 ## Members
@@ -60,7 +60,7 @@ Hash_Table_O_A & operator=(Hash_Table_O_A && other); // оператор пер�
 
 struct Element {
 		ValueType data_;
-		bool is_empty_ = true;
+		bool is_empty_;
 };
 
 
@@ -134,5 +134,5 @@ Val operator[](Key const & key) const; // получает копию значе
 
 struct Element {
 		std::pair<Key, Val> data_;
-		bool is_empty_ = true;
+		bool is_empty_;
 };

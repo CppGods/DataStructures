@@ -1,3 +1,6 @@
+#ifndef AVL_TREE_HPP
+#define AVL_TREE_HPP
+
 #include <iostream>
 #include <utility>
 template<typename Ty, typename T>
@@ -63,9 +66,10 @@ public:
 	~avl_tree();
 	void insert(const T&, const Ty&);
 	void remove(const Ty&);
-	node<Ty, T> * search(const T&) const;
+	node<Ty, T> * search(const Ty&) const;
 	bool operator ==(const avl_tree& other);
 	bool isEmpty();
+	std::size_t size() const;
 };
 
 /////copy////
@@ -239,7 +243,7 @@ bool avl_tree<Ty, T, Compare>:: operator ==(const avl_tree& other)
 };
 
 template<class Ty, class T, class Compare>
-node<Ty, T>* avl_tree<Ty, T, Compare>::search(const T& k) const
+node<Ty, T>* avl_tree<Ty, T, Compare>::search(const Ty& k) const
 {
 	node<Ty, T> * tr = root;
 	while (tr != nullptr)
@@ -360,7 +364,18 @@ node<Ty, T>*  avl_tree<Ty, T, Compare>::remove(node<Ty, T>* Node, const Ty &k)
 template<class Ty, class T, class Compare>
 void  avl_tree<Ty, T, Compare>::remove(const Ty &k)
 {
-	root = remove(root, k);
-	--count_;
+	if (search(k) != nullptr)
+	{
+		root = remove(root, k);
+		--count_;
+	}
 
 };
+
+template<class Ty, class T, class Compare>
+std::size_t avl_tree<Ty, T, Compare>::size() const
+{
+	return count_;
+};
+
+#endif // !AVL_TREE_HPP

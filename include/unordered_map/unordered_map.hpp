@@ -20,7 +20,7 @@ template<
 public:
 
 	class TUnordered_Map_Bidiretional_Iterator
-		: public std::iterator<std::bidirectional_iterator_tag, Val > {
+		: public std::iterator<std::bidirectional_iterator_tag, std::pair<Key, Val> > {
 
 		friend class Unordered_Map;
 

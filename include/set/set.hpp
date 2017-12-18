@@ -1,7 +1,7 @@
 #ifndef SET_HPP
 #define SET_HPP
 
-#include "include\bst_tree\bst_tree.hpp"
+#include <bst_tree.hpp>
 #include <vector>
 #include <utility>
 

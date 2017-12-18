@@ -6,7 +6,7 @@ template<
 	class Val,
 	class Hash,
 	class KeyEqual
-> class Unordered_Map
+> class Unordered_Map;
 
 ## Members
 
@@ -55,4 +55,11 @@ Val operator[](Key const & key) const; // получает копию значе
 ## Other
 
 class TUnordered_Map_Bidiretional_Iterator; // двунаправленный константный итератор
+
+template<
+	class Key,
+	class Val,
+	class Hash,
+	class KeyEqual
+> class Hash_Table_S_C; // хэш таблица со связанными цепочками
 

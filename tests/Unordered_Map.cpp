@@ -3,167 +3,167 @@
 
 SCENARIO("Unordered_Map standart init") {
 
-	Unordered_Map<char, int> ht1;
-	REQUIRE(ht1.find('a') == false);
-	REQUIRE(ht1.size() == 0);
-	REQUIRE(ht1.empty() == true);
+	Unordered_Map<char, int> ump1;
+	REQUIRE(ump1.find('a') == false);
+	REQUIRE(ump1.size() == 0);
+	REQUIRE(ump1.empty() == true);
 }
 
 SCENARIO("Unordered_Map insert") {
 
-	Unordered_Map<char, int> ht1;
-	REQUIRE(ht1.find('b') == false);
-	ht1.insert('b', 1);
-	REQUIRE(1 == ht1.size());
-	REQUIRE(ht1.find('b') == true);
+	Unordered_Map<char, int> ump1;
+	REQUIRE(ump1.find('b') == false);
+	ump1.insert('b', 1);
+	REQUIRE(1 == ump1.size());
+	REQUIRE(ump1.find('b') == true);
 
-	ht1.insert('b',2);
-	REQUIRE(1 == ht1.size());
-	REQUIRE(ht1.find('b') == true);
+	ump1.insert('b',2);
+	REQUIRE(1 == ump1.size());
+	REQUIRE(ump1.find('b') == true);
 
-	REQUIRE(ht1.find('a') == false);
-	ht1.insert('a', 10);
-	REQUIRE(ht1.find('a') == true);
-	REQUIRE(2 == ht1.size());
+	REQUIRE(ump1.find('a') == false);
+	ump1.insert('a', 10);
+	REQUIRE(ump1.find('a') == true);
+	REQUIRE(2 == ump1.size());
 }
 
 SCENARIO("Unordered_Map erase") {
 
-	Unordered_Map<char,int> ht1;
-	ht1.insert('a', 1);
+	Unordered_Map<char,int> ump1;
+	ump1.insert('a', 1);
 
-	ht1.erase('a');
-	REQUIRE(ht1.find('a') == false);
-	REQUIRE(ht1.size() == 0);
+	ump1.erase('a');
+	REQUIRE(ump1.find('a') == false);
+	REQUIRE(ump1.size() == 0);
 
-	ht1.insert('a', 1);
-	ht1.insert('a', 1);
-	ht1.insert('a', 2);
-	ht1.insert('a', 3);
-	REQUIRE(ht1.find('a') == true);
-	REQUIRE(1 == ht1.size());
+	ump1.insert('a', 1);
+	ump1.insert('a', 1);
+	ump1.insert('a', 2);
+	ump1.insert('a', 3);
+	REQUIRE(ump1.find('a') == true);
+	REQUIRE(1 == ump1.size());
 
-	ht1.insert('b', 2);
-	ht1.insert('c', 3);
-	ht1.insert('d', 4);
-	REQUIRE(4 == ht1.size());
+	ump1.insert('b', 2);
+	ump1.insert('c', 3);
+	ump1.insert('d', 4);
+	REQUIRE(4 == ump1.size());
 
-	ht1.erase('a');
-	REQUIRE(3 == ht1.size());
+	ump1.erase('a');
+	REQUIRE(3 == ump1.size());
 
-	ht1.erase('a');
-	REQUIRE(3 == ht1.size());
-	REQUIRE(ht1.find('a') == false);
-	REQUIRE(ht1.find('b') == true);
-	REQUIRE(ht1.find('c') == true);
-	REQUIRE(ht1.find('d') == true);
+	ump1.erase('a');
+	REQUIRE(3 == ump1.size());
+	REQUIRE(ump1.find('a') == false);
+	REQUIRE(ump1.find('b') == true);
+	REQUIRE(ump1.find('c') == true);
+	REQUIRE(ump1.find('d') == true);
 }
 
 SCENARIO("Unordered_Map clear") {
 
-	Unordered_Map<char, int> ht1;
-	ht1.clear();
-	REQUIRE(ht1.size() == 0);
-	REQUIRE(ht1.find('a') == false);
-	REQUIRE(ht1.find('b') == false);
-	REQUIRE(ht1.find('c') == false);
-	REQUIRE(ht1.empty() == true);
+	Unordered_Map<char, int> ump1;
+	ump1.clear();
+	REQUIRE(ump1.size() == 0);
+	REQUIRE(ump1.find('a') == false);
+	REQUIRE(ump1.find('b') == false);
+	REQUIRE(ump1.find('c') == false);
+	REQUIRE(ump1.empty() == true);
 
-	ht1.insert('b', 1);
-	ht1.insert('c', 2);
-	ht1.insert('d', 3);
-	REQUIRE(ht1.size() == 3);
-	REQUIRE(ht1.find('b') == true);
-	REQUIRE(ht1.find('c') == true);
-	REQUIRE(ht1.find('d') == true);
-	REQUIRE(ht1.empty() == false);
+	ump1.insert('b', 1);
+	ump1.insert('c', 2);
+	ump1.insert('d', 3);
+	REQUIRE(ump1.size() == 3);
+	REQUIRE(ump1.find('b') == true);
+	REQUIRE(ump1.find('c') == true);
+	REQUIRE(ump1.find('d') == true);
+	REQUIRE(ump1.empty() == false);
 
-	ht1.clear();
-	REQUIRE(ht1.size() == 0);
-	REQUIRE(ht1.find('b') == false);
-	REQUIRE(ht1.find('c') == false);
-	REQUIRE(ht1.find('d') == false);
-	REQUIRE(ht1.empty() == true);
+	ump1.clear();
+	REQUIRE(ump1.size() == 0);
+	REQUIRE(ump1.find('b') == false);
+	REQUIRE(ump1.find('c') == false);
+	REQUIRE(ump1.find('d') == false);
+	REQUIRE(ump1.empty() == true);
 }
 
 SCENARIO("Unordered_Map operator= and init with other") {
 
-	Unordered_Map<char, int> ht1;
-	ht1.insert('a', 2);
-	ht1.insert('b', 3);
-	ht1.insert('c', 4);
+	Unordered_Map<char, int> ump1;
+	ump1.insert('a', 2);
+	ump1.insert('b', 3);
+	ump1.insert('c', 4);
 
-	Unordered_Map<char, int> ht2(ht1);
-	REQUIRE(ht2.find('b') == true);
-	REQUIRE(ht2.find('a') == true);
-	REQUIRE(ht2.find('c') == true);
-	REQUIRE(3 == ht2.size());
+	Unordered_Map<char, int> ump2(ump1);
+	REQUIRE(ump2.find('b') == true);
+	REQUIRE(ump2.find('a') == true);
+	REQUIRE(ump2.find('c') == true);
+	REQUIRE(3 == ump2.size());
 
-	ht1.clear();
-	REQUIRE(ht2.find('a') == true);
-	REQUIRE(ht2.find('b') == true);
-	REQUIRE(ht2.find('c') == true);
-	REQUIRE(3 == ht2.size());
+	ump1.clear();
+	REQUIRE(ump2.find('a') == true);
+	REQUIRE(ump2.find('b') == true);
+	REQUIRE(ump2.find('c') == true);
+	REQUIRE(3 == ump2.size());
 
-	Unordered_Map<char, int> ht3;
-	ht3 = ht2;
-	REQUIRE(ht3.find('a') == true);
-	REQUIRE(ht3.find('b') == true);
-	REQUIRE(ht3.find('c') == true);
-	REQUIRE(3 == ht3.size());
+	Unordered_Map<char, int> ump3;
+	ump3 = ump2;
+	REQUIRE(ump3.find('a') == true);
+	REQUIRE(ump3.find('b') == true);
+	REQUIRE(ump3.find('c') == true);
+	REQUIRE(3 == ump3.size());
 
-	ht2.erase('a');
-	REQUIRE(ht3.find('a') == true);
-	REQUIRE(ht3.find('b') == true);
-	REQUIRE(ht3.find('c') == true);
-	REQUIRE(3 == ht3.size());
+	ump2.erase('a');
+	REQUIRE(ump3.find('a') == true);
+	REQUIRE(ump3.find('b') == true);
+	REQUIRE(ump3.find('c') == true);
+	REQUIRE(3 == ump3.size());
 
-	ht3.erase('b');
-	REQUIRE(ht2.find('a') == false);
-	REQUIRE(ht2.find('b') == true);
-	REQUIRE(ht2.find('c') == true);
-	REQUIRE(2 == ht2.size());
-	REQUIRE(ht3.find('a') == true);
-	REQUIRE(ht3.find('b') == false);
-	REQUIRE(ht3.find('c') == true);
-	REQUIRE(2 == ht3.size());
+	ump3.erase('b');
+	REQUIRE(ump2.find('a') == false);
+	REQUIRE(ump2.find('b') == true);
+	REQUIRE(ump2.find('c') == true);
+	REQUIRE(2 == ump2.size());
+	REQUIRE(ump3.find('a') == true);
+	REQUIRE(ump3.find('b') == false);
+	REQUIRE(ump3.find('c') == true);
+	REQUIRE(2 == ump3.size());
 }
 
 SCENARIO("Unordered_Map operators [] and iterators") {
 
-	Unordered_Map<char, int> ht1;
-	ht1.insert('a', 2);
-	ht1.insert('b', 3);
-	ht1.insert('c', 4);
+	Unordered_Map<char, int> ump1;
+	ump1.insert('a', 2);
+	ump1.insert('b', 3);
+	ump1.insert('c', 4);
 
-	REQUIRE(ht1['a'] == 2);
-	REQUIRE(ht1['b'] == 3);
-	REQUIRE(ht1['c'] == 4);
-	ht1['a'] = 4;
-	ht1['c'] = 2;
-	REQUIRE(ht1['a'] == 4);
-	REQUIRE(ht1['b'] == 3);
-	REQUIRE(ht1['c'] == 2);
+	REQUIRE(ump1['a'] == 2);
+	REQUIRE(ump1['b'] == 3);
+	REQUIRE(ump1['c'] == 4);
+	ump1['a'] = 4;
+	ump1['c'] = 2;
+	REQUIRE(ump1['a'] == 4);
+	REQUIRE(ump1['b'] == 3);
+	REQUIRE(ump1['c'] == 2);
 
-	REQUIRE(ht1['d'] == int());
-	ht1['d'] = 5;
-	REQUIRE(ht1['d'] == 5);
+	REQUIRE(ump1['d'] == int());
+	ump1['d'] = 5;
+	REQUIRE(ump1['d'] == 5);
 
-	ht1.erase('a');
-	ht1.erase('b');
-	int a_count = ht1['a'];
-	int b_count = ht1['b'];
+	ump1.erase('a');
+	ump1.erase('b');
+	int a_count = ump1['a'];
+	int b_count = ump1['b'];
 	REQUIRE(int() == a_count );
 	REQUIRE(int() == b_count );
-	REQUIRE(ht1.size() == 4);
+	REQUIRE(ump1.size() == 4);
 
 	
 
-	ht1.erase('a');
-	ht1.erase('b');
-	auto it = ht1.cbegin();
-	auto it_e = ht1.cend();
-	REQUIRE(ht1.size() == 2);
+	ump1.erase('a');
+	ump1.erase('b');
+	auto it = ump1.cbegin();
+	auto it_e = ump1.cend();
+	REQUIRE(ump1.size() == 2);
 
 	if (it.key() == 'd') {
 		REQUIRE(it.value() == 5);

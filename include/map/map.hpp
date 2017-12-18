@@ -2,7 +2,7 @@
 #define MAP_HPP
 
 
-#include "include\avl_tree\avl_tree.hpp"
+#include <avl_tree.hpp>
 #include <utility>
 #include <vector>
 #include <algorithm>
@@ -18,6 +18,117 @@ template<
 > class map {
 
 public:
+
+	class Tmap_Bidiretional_Iterator
+		: public std::iterator<std::bidirectional_iterator_tag, std::pair<Key, Val>> {
+
+		friend class map;
+
+	private:
+
+		Tmap_Bidiretional_Iterator()
+			: pos_{ 0 } {
+
+		}
+
+	public:
+
+		Tmap_Bidiretional_Iterator(Tmap_Bidiretional_Iterator const & other)
+			: pos_{ other.pos_ } {
+
+			keys_ = other.keys_;
+			values_ = other.values_;
+		}
+
+		bool operator!=(Tmap_Bidiretional_Iterator const & other) const {
+
+			return pos_ != other.pos_;
+		}
+
+		bool operator==(Tmap_Bidiretional_Iterator const & other) const {
+	
+			return pos_ == other.pos_;
+		}
+
+		std::pair<Key, Val> operator*() const {
+
+			return std::pair<Key, Val>(*keys_[pos_], *values_[pos_]);
+		}
+
+		Key const & key() const {
+
+			return *keys_[pos_];
+		}
+
+		Val const & value() const {
+
+			return *values_[pos_];
+		}
+
+		Tmap_Bidiretional_Iterator & operator++() {
+
+			++pos_;
+			return *this;
+		}
+
+		Tmap_Bidiretional_Iterator & operator--() {
+
+			--pos_;
+			return *this;
+		}
+
+		Tmap_Bidiretional_Iterator & operator++(int) {
+
+			Tmap_Bidiretional_Iterator tmp(*this);
+			++pos_;
+			return tmp;
+		}
+
+		Tmap_Bidiretional_Iterator & operator--(int) {
+
+			Tmap_Bidiretional_Iterator tmp(*this);
+			--pos_;
+			return tmp;
+		}
+
+		~Tmap_Bidiretional_Iterator() {
+		
+		}
+
+	private:
+
+		std::vector<Key const *> keys_;
+		std::vector<Val const *> values_;
+		std::size_t pos_;
+	};
+
+	Tmap_Bidiretional_Iterator cbegin() const {
+
+		Tmap_Bidiretional_Iterator it;
+		std::size_t count = ordered_keys_.size();
+		for(std::size_t i = 0; i < count; ++i){
+			auto node = pairs_->search(ordered_keys_[i]);
+			it.keys_.push_back(&node->key);
+			it.values_.push_back(&node->value);
+		}
+
+		return it;
+	}
+
+	Tmap_Bidiretional_Iterator cend() const {
+
+		Tmap_Bidiretional_Iterator it;
+		std::size_t count = ordered_keys_.size();
+		for(std::size_t i = 0; i < count; ++i){
+			auto node = pairs_->search(ordered_keys_[i]);
+			it.keys_.push_back(&node->key);
+			it.values_.push_back(&node->value);
+		}
+		it.pos_ = count;
+
+		return it;
+	}
+
 
 	map();
 	map(map const & other);
@@ -67,7 +178,8 @@ map<Key, Val, Compare>::
 map(map<Key, Val, Compare> const & other) {
 	
 	pairs_ = new avl_tree<Key, Val, Compare>(*other.pairs_);
-	std::copy(other.ordered_keys_.begin(), other.ordered_keys_.end(), ordered_keys_);
+	ordered_keys_.assign(other.ordered_keys_.size(), Key());
+	std::copy(other.ordered_keys_.begin(), other.ordered_keys_.end(), ordered_keys_.begin());
 	comp_ = new Compare(*other.comp_);
 }
 
@@ -133,7 +245,7 @@ map<Key, Val, Compare>::
 swap(map<Key, Val, Compare> & other) {
 
 	std::swap(pairs_, other.pairs_);
-	std::swap(ordered_keys_, other.ordered_keys_);
+	ordered_keys_.swap(other.ordered_keys_);
 }
 
 template<
@@ -149,7 +261,7 @@ insert(Key const & key, Val const & val) {
 		pairs_->insert(val, key);
 
 		ordered_keys_.push_back(key);
-		std::size_t size = size();
+		std::size_t size = this->size();
 		std::size_t pos_left = size - 2;
 		std::size_t pos_cur = size - 1;			
 		while ((pos_cur > 0) && ((*comp_)(ordered_keys_[pos_cur], ordered_keys_[pos_left]))) {
@@ -204,7 +316,7 @@ map<Key, Val, Compare>::
 clear() {
 
 	delete pairs_;
-	pairs_ = new pairs_();
+	pairs_ = new avl_tree<Key, Val, Compare>();
 	ordered_keys_.clear();
 }
 

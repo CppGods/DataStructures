@@ -66,7 +66,7 @@ public:
 	~avl_tree();
 	void insert(const T&, const Ty&);
 	void remove(const Ty&);
-	node<Ty, T> * search(const Ty&) const;
+	node<Ty, T> const * search(const Ty&) const;
 	bool operator ==(const avl_tree& other);
 	bool isEmpty();
 	std::size_t size() const;
@@ -243,9 +243,9 @@ bool avl_tree<Ty, T, Compare>:: operator ==(const avl_tree& other)
 };
 
 template<class Ty, class T, class Compare>
-node<Ty, T>* avl_tree<Ty, T, Compare>::search(const Ty& k) const
+node<Ty, T> const * avl_tree<Ty, T, Compare>::search(const Ty& k) const
 {
-	node<Ty, T> * tr = root;
+	node<Ty, T> const * tr = root;
 	while (tr != nullptr)
 	{
 		if ((!(*comp_)(tr->key, k)) && (!(*comp_)(k, tr->key)))

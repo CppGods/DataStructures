@@ -156,7 +156,7 @@ bool bst_tree<Ty, Compare>::is_node(Ty const & value) const {
 	node<Ty> *cur = root_;
 
 	while (cur != nullptr) {
-		if (cur->data_ == value) {
+		if (!((*comp_)(value, cur->data_) || (*comp_)(cur->data_, value))) {
 			return true;
 		}
 		if ((*comp_)(value, cur->data_)) {

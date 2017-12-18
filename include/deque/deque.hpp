@@ -1,8 +1,5 @@
 #include"include\list\list.hpp"
 
-
-
-
 template <class Type>
 class Deque
 {
